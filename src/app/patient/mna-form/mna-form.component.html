@@ -1,0 +1,44 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Mini Nutrition Assesment Form</h1>
+  </div>
+</section>
+<section class="section">
+<!--  <div class="row">-->
+<!--    <div class="col-md-12">-->
+<!--      <form (submit)="onSubmit()" [formGroup] ="mnaForm" class="needs-validation" novalidate="">-->
+<!--        <div class="row">-->
+<!--          <div class="form-group col-md-12">-->
+<!--            <label >A. Has food intake declined over the past 3 months due to loss-->
+<!--              of appetite, digestive problems, chewing or swallowing-->
+<!--              difficulties?</label>-->
+<!--            <br>-->
+<!--            <input formControlName="questionA" type="radio" id="a1" name="questionA" value="0" class="m-2">-->
+<!--            <label for="a1" >Severe decrease in food intake</label><br>-->
+<!--            <input formControlName="questionA" class="m-2" type="radio" id="a2" name="questionA" value="1">-->
+<!--            <label for="a2">Moderate decrease in food intake</label><br>-->
+<!--            <input formControlName="questionA" class="m-2" type="radio" id="a3" name="questionA" value="2">-->
+<!--            <label for="a3">No decrease in food intake</label>-->
+
+<!--            <div *ngIf="submitted && mnaForm.controls.questionA.errors" class="invalid-feedback">-->
+<!--              <div *ngIf="mnaForm.controls.questionA.errors.required">Please choose one option</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+
+
+<!--        <div class="form-group">-->
+<!--          <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">-->
+<!--            Submit-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+</section>
+<section class="section">
+  <div class="row">
+    <app-dynamic-form [formJson]="json" [debug]="false" (output)="components($event)"></app-dynamic-form>
+  </div>
+</section>

@@ -1,0 +1,158 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Patients</h1>
+  </div>
+</section>
+<div class="row">
+  <div class="card col-md-12">
+    <div class="card-header d-flex justify-content-between">
+      <h3>All Patients</h3>
+      <button class="btn btn-primary" (click)=" clearForm();lgModal.show()">Add New Patient</button>
+    </div>
+    <div class="card-body">
+      <div class="" *ngIf="allInactiveUser.length>0">
+        <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+          <thead>
+          <tr>
+            <th> User Name</th>
+            <th>Role </th>
+            <th>Email </th>
+            <th>Mobile Number</th>
+            <th style="width: 260px;"> Action </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of allInactiveUser;let i = index">
+            <td >{{item['name'] |titlecase}}</td>
+            <td>{{item['user_type'] | titlecase}} </td>
+            <td >{{item['email'] }}</td>
+            <td >{{item['mobile'] |titlecase}}</td>
+            <td>
+              <button class="btn btn-info mr-2" (click)="details(i);lgModal.show()" > Details </button>
+              <button  class="btn btn-warning mr-2" (click)="edit(i);lgModal.show()">Edit</button>
+              <button class="btn btn-danger mr-2" >Delete</button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Add New/Edit/View Patient</h4>
+        <button type="button" class="close pull-right" id="closeModal" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form (submit)="onSubmit()" [formGroup] ="form" class="needs-validation" novalidate="">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input [readOnly]="viewOnly" id="email" formControlName="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.email.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.email.errors.required">Please fill in your Email</div>
+                  <div *ngIf="form.controls.email.errors">Email must be a valid email address</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="mobile">Mobile</label>
+                <input [readOnly]="viewOnly" id="mobile" formControlName="mobile" type="tel" pattern="[6-9]{1}[0-9]{9}" class="form-control" name="mobile" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.mobile.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.mobile.errors.required">Please fill in your Mobile</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="firstName">First Name</label>
+                <input [readOnly]="viewOnly" id="firstName" formControlName="firstName" type="text" class="form-control" name="firstName" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.firstName.errors.required">Please fill in your First Name</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="lastName">Last Name</label>
+                <input [readOnly]="viewOnly" id="lastName" formControlName="lastName" type="text" class="form-control" name="lastName" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.lastName.errors.required">Please fill in your Last Name</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="dob">Date Of Birth</label>
+                <input [readOnly]="viewOnly"  class="form-control" placeholder="Select a date" angular-mydatepicker name="myDate"
+                       id="dob" formControlName="dob" [options]="myOptions" (click)="dp.toggleCalendar()" #dp="angular-mydatepicker"/>
+                <!--                <input id="dob" formControlName="dob" type="text" class="form-control" name="dob" tabindex="1" required autofocus>-->
+                <div *ngIf="submitted && form.controls.dob.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.dob.errors.required">Please fill in your dob</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="address">Address</label>
+                <textarea [readOnly]="viewOnly"  id="address" formControlName="address" type="text" class="form-control" name="address" tabindex="1" required autofocus></textarea>
+                <div *ngIf="submitted && form.controls.address.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.address.errors.required">Please fill in your Address</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="gender">Gender</label>
+                <ng-container *ngIf="viewOnly">
+                  <input class="form-control" value="{{form.value.gender | titlecase}}" [readOnly]="viewOnly">
+                </ng-container>
+                <ng-container *ngIf="!viewOnly" >
+                  <select  id="gender" formControlName = "gender" type="text" class="form-control "  name="gender" required >
+                    <option  value="male" >Male</option>
+                    <option  value="female" >Female</option>
+                    <option  value="other" >Other</option>
+                  </select>
+                </ng-container>
+
+                <div *ngIf="submitted && form.controls.user_type.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.user_type.errors.required">Please fill in your user_type</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="!isEdit">
+
+              <div class="form-group col-12">
+                <label for="password" class="d-block">Password</label>
+                <input id="password" formControlName = "password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password">
+                <div *ngIf="submitted && form.controls.password.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.password.errors.required">Password is required</div>
+                  <div *ngIf="form.controls.password.errors.minlength">Please enter atleast 6 letters password</div>
+                </div>
+              </div>
+
+            </div>
+
+          <ng-container *ngIf="!viewOnly">
+              <div class="form-group" *ngIf="!isEdit ">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                  Add Patient
+                </button>
+              </div>
+              <div class="form-group" *ngIf="isEdit ">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                  Update Patient
+                </button>
+              </div>
+          </ng-container>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

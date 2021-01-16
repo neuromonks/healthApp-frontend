@@ -1,0 +1,55 @@
+
+<div  *ngIf="forms != null">
+  <div *ngFor="let f of forms">
+    <form novalidate (ngSubmit)="onSubmit()" [formGroup]="f.formGroup">
+      <div *ngFor="let prop of f.metaData">
+        <div class="row">
+          <div class="form-group mb-1 col-md-12">
+            <label [attr.for]="prop">{{prop.label}}</label>
+            <ng-container [ngSwitch]="prop.type">
+
+              <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.key" [id]="prop.key" [type]="prop.type">
+              <input *ngSwitchCase="'file'" type="file" [id]="prop.key" [formControlName]="prop.key">
+              <input *ngSwitchCase="'checkbox'" type="checkbox" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'email'" type="email" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'date'" type="date" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'datetime'" type="datetime" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'datetime-local'" type="datetime-local" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'number'" type="number" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'reset'" type="reset" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'tel'" type="tel" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'url'" type="url" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+
+              <select [formControlName]="prop.key" *ngSwitchCase="'select'" class="form-control">
+                <option *ngFor="let option of prop.options" [value]="option.value">
+                  {{option.label}}
+                </option>
+              </select>
+
+              <ng-container *ngSwitchCase="'radio'">
+                <br>
+                <ng-container *ngFor="let option of prop.options">
+                  <div>
+                    <input type="radio" [name]="prop.key" [formControlName]="prop.key" [value]="option.value"  class="m-2">
+                    <label >
+                      {{option.label | titlecase}}
+                    </label>
+                  </div>
+                </ng-container>
+
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+
+        <div *ngIf="submitted && f.formGroup.controls[prop.key].errors" class="invalid-feedback">
+          <div *ngIf="f.formGroup.controls[prop.key].errors.required">Please choose one option</div>
+        </div>
+      </div>
+
+      <br>
+       <button (click)="updateForm(f.id, f.formGroup.value,f.formGroup)">Update</button>
+    </form>
+    <hr>
+  </div>
+</div>

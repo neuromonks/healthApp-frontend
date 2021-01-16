@@ -1,0 +1,74 @@
+<section class="section">
+  <div class="section-header">
+    <h1>NRS FORM</h1>
+  </div>
+</section>
+<section class="section">
+  <div class="row">
+    <div class="col-md-12">
+      <form (submit)="onSubmit()" [formGroup] ="nrsForm" class="needs-validation" novalidate="">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="age">age</label>
+            <input id="age" formControlName="age" type="number" class="form-control" name="age" tabindex="1" required autofocus>
+            <div *ngIf="submitted && nrsForm.controls.age.errors" class="invalid-feedback">
+              <div *ngIf="nrsForm.controls.age.errors.required">Please fill in your age</div>
+              <div *ngIf="nrsForm.controls.age.errors">age must be a valid age </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="bmiIndicator">Is BMI <20.5</label>
+            <select id="bmiIndicator" formControlName = "bmiIndicator" type="text" class="form-control "  name="bmiIndicator" required >
+              <option  value="0" >No</option>
+              <option  value="1" >Yes</option>
+
+            </select>
+            <div *ngIf="submitted && nrsForm.controls.bmiIndicator.errors" class="invalid-feedback">
+              <div *ngIf="nrsForm.controls.bmiIndicator.errors.required">Please fill Field</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="weightChange">	Has the patient lost weight within the last 3 months?</label>
+            <select id="weightChange" formControlName = "weightChange" type="text" class="form-control "  name="weightChange" required >
+              <option  value="0" >No</option>
+              <option  value="1" >Yes</option>
+            </select>
+            <div *ngIf="submitted && nrsForm.controls.weightChange.errors" class="invalid-feedback">
+              <div *ngIf="nrsForm.controls.weightChange.errors.required">Please fill Field</div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="dieteryIntakeLost">Has the patient had a reduced dietary intake in the last week?</label>
+            <select id="dieteryIntakeLost" formControlName = "dieteryIntakeLost" type="text" class="form-control "  name="dieteryIntakeLost" required >
+              <option  value="0" >No</option>
+              <option  value="1" >Yes</option>
+            </select>
+            <div *ngIf="submitted && nrsForm.controls.dieteryIntakeLost.errors" class="invalid-feedback">
+              <div *ngIf="nrsForm.controls.dieteryIntakeLost.errors.required">Please fill Field</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="illFlag">Is the patient severely ill? </label>
+            <select id="illFlag" formControlName = "illFlag" type="text" class="form-control "  name="illFlag" required >
+              <option  value="0" >No</option>
+              <option  value="1" >Yes</option>
+            </select>
+            <div *ngIf="submitted && nrsForm.controls.illFlag.errors" class="invalid-feedback">
+              <div *ngIf="nrsForm.controls.illFlag.errors.required">Please fill Field</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

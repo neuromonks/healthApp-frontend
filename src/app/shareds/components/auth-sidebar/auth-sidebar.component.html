@@ -1,0 +1,66 @@
+<div class="main-sidebar sidebar-style-2">
+  <aside id="sidebar-wrapper">
+    <div class="sidebar-brand">
+      <a [routerLink]="['/', AppURL.Authen]">HeathApp</a>
+    </div>
+    <div class="sidebar-brand sidebar-brand-sm">
+      <a [routerLink]="['/', AppURL.Authen]">G</a>
+    </div>
+    <ul class="sidebar-menu" >
+      <li class="menu-header">Dashboard</li>
+      <ng-container *ngIf="userData.user_type=='admin'">
+      <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" [routerLink] = "['/' , 'admin' ]">
+          <i class="fa fa-home mx-auto"></i> <span>Dashboard</span>
+        </a>
+      </li>
+      <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" [routerLink] = "['/' , 'admin' , 'doctor']">
+          <i class="fa fa-home mx-auto"></i> <span>All Doctors</span>
+        </a>
+      </li>
+      <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" [routerLink] = "['/' , 'admin' , 'patient']">
+          <i class="fa fa-home mx-auto"></i> <span>All Patients</span>
+        </a>
+      </li>
+      <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" [routerLink] = "['/' , 'admin' , 'hospital']">
+          <i class="fa fa-home mx-auto"></i> <span>All Hospital</span>
+        </a>
+      </li>
+      </ng-container>
+      <ng-container *ngIf="userData.user_type=='patient'">
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'patient' ]">
+            <i class="fa fa-home mx-auto"></i> <span>Dashboard</span>
+          </a>
+        </li>
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'patient' , 'mustForm']">
+            <i class="fa fa-home mx-auto"></i> <span>MUST Form</span>
+          </a>
+        </li>
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'patient' , 'nrsForm']">
+            <i class="fa fa-home mx-auto"></i> <span>NRS Form</span>
+          </a>
+        </li>
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'patient' , 'mnaForm']">
+            <i class="fa fa-home mx-auto"></i> <span>MNA Form</span>
+          </a>
+        </li>
+      </ng-container>
+<!--      <li class="dropdown" routerLinkActive= "active">-->
+<!--          <a href="#" [routerLink] = "['/' , 'admin' , 'blocks']" class="nav-link"><i class="fa fa-square-o mx-auto"></i> <span>Blocks</span></a>-->
+<!--        </li>-->
+<!--        <li class="dropdown" routerLinkActive= "active">-->
+<!--          <a href="#" [routerLink] = "['/' , 'admin' , 'complaints']" class="nav-link"><i class="fa fa-file-text-o mx-auto"></i> <span>Follow Ups</span></a>-->
+<!--        </li>-->
+<!--        <li class="dropdown" routerLinkActive= "active">-->
+<!--          <a href="#" [routerLink] = "['/' , 'admin' , 'users']" class="nav-link"><i class="fa fa-users mx-auto"></i> <span>Users</span></a>-->
+<!--        </li>-->
+    </ul>
+  </aside>
+</div>

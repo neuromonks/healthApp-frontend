@@ -1,0 +1,50 @@
+<section class="section">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+
+        <div class="card card-primary">
+          <div class="card-header"><h4 style="width: 100%" class="text-center">Login</h4></div>
+
+          <div class="card-body">
+
+            <form (submit)="onSubmit()" [formGroup] ="form" class="needs-validation" novalidate="">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" formControlName="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.email.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.email.errors.required">Please fill in your Email</div>
+                  <div *ngIf="form.controls.email.errors">Email must be a valid email address</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="d-block">
+                  <label for="password" class="control-label">Password</label>
+                  <div class="float-right">
+                    <a href="#" class="text-small">
+                      Forgot Password?
+                    </a>
+                  </div>
+                </div>
+                <input id="password" formControlName="password" type="password" class="form-control" name="password" tabindex="2" required>
+                <div *ngIf="submitted && form.controls.password.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.password.errors.required">Please fill in your password</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                  Login
+                </button>
+              </div>
+            </form>
+            <div class="text-center mt-4 mb-3">
+              <a [routerLink] = "['/' , 'register' ]">Register</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

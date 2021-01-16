@@ -1,0 +1,98 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Hospitals</h1>
+  </div>
+</section>
+<div class="row">
+  <div class="card col-md-12">
+    <div class="card-header d-flex justify-content-between">
+      <h3>All Hospital</h3>
+      <button class="btn btn-primary" (click)="clearForm();lgModal.show()">Add New Hospital</button>
+    </div>
+    <div class="card-body">
+      <div class="" *ngIf="allHospital.length>0">
+        <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+          <thead>
+          <tr>
+            <th> Hospital Name</th>
+            <th>Address </th>
+            <th>Website </th>
+            <th style="width: 260px;"> Action </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of allHospital;let i = index">
+            <td >{{item['name'] |titlecase}}</td>
+            <td>{{item['address'] | titlecase}} </td>
+            <td >{{item['website'] | titlecase}}</td>
+            <td>
+              <button class="btn btn-info mr-2"  > Details </button>
+              <button  class="btn btn-warning mr-2" (click)="editData(i);lgModal.show()">Edit</button>
+              <button class="btn btn-danger mr-2" >Delete</button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Add/Edit New Doctor</h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form (submit)="onSubmit()" [formGroup] ="form" class="needs-validation" novalidate="">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="name">name</label>
+                <input id="name" formControlName="name" type="text" class="form-control" name="name" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.name.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.name.errors.required">Please fill in your name</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="address">Address</label>
+                <input id="address" formControlName="address" type="text" class="form-control" name="address" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.address.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.address.errors.required">Please fill in your Address</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="website">website</label>
+                <input id="website" formControlName="website" type="text" class="form-control" name="website" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.website.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.website.errors.required">Please fill in your website</div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-group" *ngIf="!isEdit">
+              <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                Add Hospital
+              </button>
+            </div>
+            <div class="form-group" *ngIf="isEdit">
+              <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                Update Hospital
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

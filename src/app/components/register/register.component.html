@@ -1,0 +1,118 @@
+<section class="section">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+
+        <div class="card card-primary">
+          <div class="card-header"><h4 style="width: 100%" class="text-center">Register</h4></div>
+
+          <div class="card-body">
+
+            <form (submit)="onSubmit()" [formGroup] ="form" class="needs-validation" novalidate="">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" formControlName="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.email.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.email.errors.required">Please fill in your Email</div>
+                  <div *ngIf="form.controls.email.errors">Email must be a valid email address</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input id="firstName" formControlName="firstName" type="text" class="form-control" name="firstName" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.firstName.errors.required">Please fill in your First Name</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input id="lastName" formControlName="lastName" type="text" class="form-control" name="lastName" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.lastName.errors.required">Please fill in your Last Name</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input id="mobile" formControlName="mobile" type="tel" pattern="[6-9]{1}[0-9]{9}" class="form-control" name="mobile" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.mobile.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.mobile.errors.required">Please fill in your Mobile</div>
+                </div>
+              </div>
+
+                <div class="form-group ">
+                  <label for="dob">Date Of Birth</label>
+                  <input  class="form-control" placeholder="Select a date" angular-mydatepicker name="myDate"
+                          id="dob" formControlName="dob" [options]="myOptions" (click)="dp.toggleCalendar()" #dp="angular-mydatepicker"/>
+                  <!--                <input id="dob" formControlName="dob" type="text" class="form-control" name="dob" tabindex="1" required autofocus>-->
+                  <div *ngIf="submitted && form.controls.dob.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.dob.errors.required">Please fill in your dob</div>
+                  </div>
+                </div>
+                <div class="form-group ">
+                  <label for="address">Address</label>
+                  <textarea id="address" formControlName="address" type="text" class="form-control" name="address" tabindex="1" required autofocus></textarea>
+                  <div *ngIf="submitted && form.controls.address.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.address.errors.required">Please fill in your Address</div>
+                  </div>
+                </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="user_type">User Type</label>
+                  <select id="user_type" formControlName = "user_type" type="text" class="form-control "  name="user_type" required >
+                    <option  value="patient" >Patient</option>
+                    <option  value="doctor" >Doctor</option>
+                  </select>
+                  <div *ngIf="submitted && form.controls.user_type.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.user_type.errors.required">Please fill in your user_type</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="gender">Gender</label>
+                  <select id="gender" formControlName = "gender" type="text" class="form-control "  name="gender" required >
+                    <option  value="male" >Male</option>
+                    <option  value="female" >Female</option>
+                    <option  value="other" >Other</option>
+                  </select>
+                  <div *ngIf="submitted && form.controls.user_type.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.user_type.errors.required">Please fill in your user_type</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group " *ngIf="this.form.value['user_type']=='doctor'">
+                <label for="hospital_id">Hospital Name</label>
+                <select id="hospital_id" formControlName = "hospital_id" type="text" class="form-control "  name="hospital_id"  >
+                  <option *ngFor="let hospital of allHospital"  value="{{hospital['id']}}" >{{hospital['name'] | titlecase}}</option>
+                </select>
+                <div *ngIf="submitted && form.controls.user_type.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.user_type.errors.required">Please fill in your user_type</div>
+                </div>
+              </div>
+
+
+              <div class="row ">
+                <div class="form-group col-12">
+                  <label for="password" class="d-block">Password</label>
+                  <input id="password" formControlName = "password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password">
+                  <div *ngIf="submitted && form.controls.password.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.password.errors.required">Password is required</div>
+                    <div *ngIf="form.controls.password.errors.minlength">Please enter atleast 6 letters password</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                  Register
+                </button>
+              </div>
+            </form>
+            <div class="text-center mt-4 mb-3">
+              <a [routerLink] = "['/' , 'login' ]">Login</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

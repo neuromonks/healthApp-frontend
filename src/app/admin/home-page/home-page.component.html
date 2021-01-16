@@ -1,0 +1,38 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Admin Dashboard</h1>
+  </div>
+</section>
+<div class="row">
+  <div class="card col-md-12">
+    <div class="card-header"><h3>All New Users</h3></div>
+    <div class="card-body">
+      <div class="" *ngIf="allInactiveUser.length>0">
+        <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+          <thead>
+          <tr>
+            <th> User Name</th>
+            <th>Role </th>
+            <th>Email </th>
+            <th>Mobile Number</th>
+            <th style="width: 180px;"> Action </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of allInactiveUser;let i = index">
+            <td >{{item['name'] |titlecase}}</td>
+            <td>{{item['user_type'] | titlecase}} </td>
+            <td >{{item['email'] }}</td>
+            <td >{{item['mobile'] |titlecase}}</td>
+            <td>
+              <button class="btn btn-info mr-2"  (click)=" allowUser(i)"> Accept Request </button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
