@@ -4,73 +4,101 @@
   </div>
 </section>
 <section class="section">
-  <div class="row">
-    <div class="col-md-12">
-      <form (submit)="onSubmit()" [formGroup] ="mustForm" class="needs-validation" novalidate="">
-        <div class="row">
-          <div class="col-md-6 form-group">
-            <label for="height">Height</label>
-            <input id="height" formControlName="height" type="number" class="form-control" name="height" tabindex="1" required autofocus>
-            <div *ngIf="submitted && mustForm.controls.height.errors" class="invalid-feedback">
-              <div *ngIf="mustForm.controls.height.errors.required">Please fill in your height</div>
-              <div *ngIf="mustForm.controls.height.errors">height must be a valid height </div>
+  <ng-container *ngIf="totalNutritionScore==-1">
+    <div class="row">
+      <div class="col-md-12">
+        <form (submit)="onSubmit()" [formGroup] ="mustForm" class="needs-validation" novalidate="">
+          <div class="row">
+            <div class="col-md-4 form-group">
+              <label for="height">Height (in cm)</label>
+              <input id="height" formControlName="height" type="number" class="form-control" name="height" tabindex="1" required autofocus>
+              <div *ngIf="submitted && mustForm.controls.height.errors" class="invalid-feedback">
+                <div *ngIf="mustForm.controls.height.errors.required">Please fill in your height</div>
+                <div *ngIf="mustForm.controls.height.errors">height must be a valid height </div>
+              </div>
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="weight">Weight</label>
+              <input id="weight" formControlName="weight" type="number" class="form-control" name="weight" tabindex="1" required autofocus>
+              <div *ngIf="submitted && mustForm.controls.weight.errors" class="invalid-feedback">
+                <div *ngIf="mustForm.controls.weight.errors.required">Please fill in your weight</div>
+                <div *ngIf="mustForm.controls.weight.errors">weight must be a valid weight </div>
+              </div>
+            </div>
+            <div class="col-md-4 form-group">
+              <label for="monthweight3">Weight in last 3 months</label>
+              <input id="monthweight3" formControlName="monthweight3" type="number" class="form-control" name="monthweight3" tabindex="1" required autofocus>
+              <div *ngIf="submitted && mustForm.controls.monthweight3.errors" class="invalid-feedback">
+                <div *ngIf="mustForm.controls.monthweight3.errors.required">Please fill in your weight</div>
+                <div *ngIf="mustForm.controls.monthweight3.errors">weight must be a valid weight </div>
+              </div>
             </div>
           </div>
-          <div class="col-md-6 form-group">
-            <label for="weight">Weight</label>
-            <input id="weight" formControlName="weight" type="number" class="form-control" name="weight" tabindex="1" required autofocus>
-            <div *ngIf="submitted && mustForm.controls.weight.errors" class="invalid-feedback">
-              <div *ngIf="mustForm.controls.weight.errors.required">Please fill in your weight</div>
-              <div *ngIf="mustForm.controls.weight.errors">weight must be a valid weight </div>
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="intake">Nutrition Intake(If there has been no nutrition intake for > 5 days then select yes)</label>
+              <select id="intake" formControlName = "intake" type="text" class="form-control "  name="intake" required >
+                <option  value="2" >Yes</option>
+                <option  value="0" >No</option>
+              </select>
+              <div *ngIf="submitted && mustForm.controls.intake.errors" class="invalid-feedback">
+                <div *ngIf="mustForm.controls.intake.errors.required">Please fill Field</div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="age">age</label>
-            <input id="age" formControlName="age" type="number" class="form-control" name="age" tabindex="1" required autofocus>
-            <div *ngIf="submitted && mustForm.controls.age.errors" class="invalid-feedback">
-              <div *ngIf="mustForm.controls.age.errors.required">Please fill in your age</div>
-              <div *ngIf="mustForm.controls.age.errors">age must be a valid age </div>
-            </div>
+
+          <div class="form-group col-md-4">
+            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+              Calculate the Nutrition
+            </button>
           </div>
-          <div class="form-group col-md-6">
-            <label for="weightChangeFlag">Change In Weight(Unplanned Weight loss in %. Select Range)</label>
-            <select id="weightChangeFlag" formControlName = "weightChangeFlag" type="text" class="form-control "  name="weightChangeFlag" required >
-              <option  value="0" >less than 5%</option>
-              <option  value="1" >between 5% to 10%</option>
-              <option  value="2" >greater than 10%</option>
-            </select>
-            <div *ngIf="submitted && mustForm.controls.weightChangeFlag.errors" class="invalid-feedback">
-              <div *ngIf="mustForm.controls.weightChangeFlag.errors.required">Please fill Field</div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-md-6">
-            <label for="intake">Nutrition Intake(If there has been no nutrition intake for > 5 days then select yes)</label>
-            <select id="intake" formControlName = "intake" type="text" class="form-control "  name="intake" required >
-              <option  value="2" >Yes</option>
-              <option  value="0" >No</option>
-            </select>
-            <div *ngIf="submitted && mustForm.controls.intake.errors" class="invalid-feedback">
-              <div *ngIf="mustForm.controls.intake.errors.required">Please fill Field</div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
-
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-            Submit
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
+  </ng-container>
+
+  <ng-container *ngIf="totalNutritionScore>=0">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Result</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Your Score is {{totalNutritionScore}}</h4>
+        <h4 *ngIf="totalNutritionScore>=0 && totalNutritionScore<1">Your at Low Risk</h4>
+        <h4 *ngIf="totalNutritionScore>=1 && totalNutritionScore<2">Your at Moderate Risk</h4>
+        <h4 *ngIf="totalNutritionScore>=2 ">Your at High Risk</h4>
+        <div>
+          <h4>Suggestion</h4>
+          <pre *ngIf="totalNutritionScore>=0 && totalNutritionScore<1">
+          Repeat screening
+          Hospital  – weekly
+          Care Homes– monthly
+          Community  – annually
+          for special groups e.g. those >75 yrs
+        </pre>
+          <pre *ngIf="totalNutritionScore>=1 && totalNutritionScore<2">
+          Document dietary intake for 3 days
+           If adequate
+           – little concern and repeat screening Hospital – weekly
+          Care Home – at least monthly Community – at least every 2-3 months
+           If inadequate
+          – clinical concern
+          – follow local policy, set goals, improve and increase overall nutritional intake, monitor and review care plan regularly
+        </pre>
+          <pre *ngIf="totalNutritionScore>=2 ">
+          Refer to dietician, Nutritional Support Team or implement local policy
+          Set goals, improve and increase overall nutritional intake
+          Monitor and review care plan Hospital  – weekly
+          Care Home – monthly Community – monthly
+          * Unless detrimental or no benefit is expected from nutritional support e.g. imminent death
+        </pre>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
 </section>
+

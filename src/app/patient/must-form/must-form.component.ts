@@ -12,7 +12,10 @@ export class MustFormComponent implements OnInit {
   userData:any;
   mustForm: FormGroup;
   submitted = false;
-
+  weightLossPercentage = 0;
+  bmi = 0;
+  bmiScore = 0;
+  totalNutritionScore = -1;
   constructor(private authService:AuthService,
               private commonService:CommonService,
               private builder: FormBuilder,
@@ -30,15 +33,15 @@ export class MustFormComponent implements OnInit {
     this.mustForm = this.builder.group({
       height: ['', [Validators.required]],
       weight: ['', [Validators.required]],
-      age: ['', [Validators.required,]],
-      weightChangeFlag: ['', [Validators.required,]],
+      age: ['', []],
+      weightChangeFlag: ['', []],
       intake : ['', [Validators.required,]],
+      monthweight3: ['', [Validators.required,]]
     });
   }
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.mustForm.controls)
     if (this.mustForm.invalid) {
       this.iziToast.warning({
         title: 'Error!',
@@ -47,7 +50,30 @@ export class MustFormComponent implements OnInit {
       });
       return;
     }
-
+    this.weightLossPercentage = ((this.mustForm.value.weight - this.mustForm.value.monthweight3)/this.mustForm.value.weight)*100;
+    if(this.weightLossPercentage<=10 && this.weightLossPercentage>=5 ){
+      this.mustForm.patchValue({
+        weightChangeFlag:1
+      },)
+    }else if(this.weightLossPercentage>10){
+      this.mustForm.patchValue({
+        weightChangeFlag:2
+      },)
+    }else{
+      this.mustForm.patchValue({
+        weightChangeFlag:0
+      },)
+    }
+    let heightInMeter = this.mustForm.value.height/100;
+    this.bmi = this.mustForm.value.weight/(heightInMeter*heightInMeter);
+    if(this.bmi>=18.5 && this.bmi<=20){
+      this.bmiScore=1;
+    }else if(this.bmi>20){
+      this.bmiScore=2;
+    }else{
+      this.bmiScore=0;
+    }
+    this.totalNutritionScore = this.bmiScore+this.mustForm.value.weightChangeFlag + (+this.mustForm.value.intake)
 
 
   }
