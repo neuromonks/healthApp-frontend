@@ -2,9 +2,9 @@
 <div  *ngIf="forms != null">
   <div *ngFor="let f of forms">
     <form novalidate (ngSubmit)="onSubmit()" [formGroup]="f.formGroup">
-      <div *ngFor="let prop of f.metaData">
-        <div class="row">
-          <div class="form-group mb-1 col-md-12">
+      <div class="row">
+        <ng-container *ngFor="let prop of f.metaData;let i = index">
+          <div class="form-group  col-md-6">
             <label [attr.for]="prop">{{prop.label}}</label>
             <ng-container [ngSwitch]="prop.type">
 
@@ -40,15 +40,16 @@
               </ng-container>
             </ng-container>
           </div>
-        </div>
+          <div *ngIf="submitted && f.formGroup.controls[prop.key].errors" class="invalid-feedback col-md-6">
+            <div *ngIf="f.formGroup.controls[prop.key].errors.required">Please choose one option</div>
+          </div>
+        </ng-container>
 
-        <div *ngIf="submitted && f.formGroup.controls[prop.key].errors" class="invalid-feedback">
-          <div *ngIf="f.formGroup.controls[prop.key].errors.required">Please choose one option</div>
-        </div>
+
       </div>
 
       <br>
-       <button (click)="updateForm(f.id, f.formGroup.value,f.formGroup)">Update</button>
+       <button (click)="updateForm(f.id, f.formGroup.value,f.formGroup)">Submit</button>
     </form>
     <hr>
   </div>

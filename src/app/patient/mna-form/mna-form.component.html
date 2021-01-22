@@ -1,6 +1,6 @@
 <section class="section">
   <div class="section-header">
-    <h1>Mini Nutrition Assesment Form</h1>
+    <h1>Mini Nutrition Screening Form</h1>
   </div>
 </section>
 <section class="section">
@@ -37,8 +37,33 @@
 <!--    </div>-->
 <!--  </div>-->
 </section>
-<section class="section">
+<section class="section" *ngIf="!startAssesment">
   <div class="row">
-    <app-dynamic-form [formJson]="json" [debug]="false" (output)="components($event)"></app-dynamic-form>
+    <app-dynamic-form [formJson]="json" [debug]="false" (output)="screeningScoreCalculation($event)"></app-dynamic-form>
+  </div>
+</section>
+<section class="section" *ngIf="startAssesment && assesMentScore==-1">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Your Screening Score Is {{mnaBasicScore}}</h3>
+      <h3 *ngIf="mnaBasicScore<=14 && mnaBasicScore>=12">Your MNA Indicator : Normal nutritional status</h3>
+      <h3 *ngIf="mnaBasicScore<=11 && mnaBasicScore>=8">Your MNA Indicator : At risk of malnutrition</h3>
+      <h3 *ngIf="mnaBasicScore<=7 && mnaBasicScore>=0">Your MNA Indicator : Malnourished</h3>
+      <h5>As your screening score is 11 or less, continue with the assessment to gain a Malnutrition Indicator Score</h5>
+    </div>
+  </div>
+  <div class="row">
+    <app-dynamic-form [formJson]="json2" [debug]="false" (output)="assesMentCalculation($event)"></app-dynamic-form>
+  </div>
+</section>
+<section class="section" *ngIf="totalScore>=0">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Your Total Score is {{totalScore}}</h3>
+      <h5>Your MNA screening score is {{mnaBasicScore}} and MNA assesment score is {{assesMentScore}}</h5>
+      <h3 *ngIf="totalScore<=30 && totalScore>=24">Your MNA Indicator : Normal nutritional status</h3>
+      <h3 *ngIf="totalScore<=23.5 && totalScore>=17">Your MNA Indicator : At risk of malnutrition</h3>
+      <h3 *ngIf="totalScore<17 && totalScore>=0">Your MNA Indicator : Malnourished</h3>
+    </div>
   </div>
 </section>

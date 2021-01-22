@@ -12,13 +12,16 @@ export class MnaFormComponent implements OnInit {
   userData:any;
   mnaForm: FormGroup;
   submitted = false;
-
+  mnaBasicScore = -1;
+  assesMentScore = -1;
+  totalScore = -1;
+  startAssesment = false;
   json: any = {
     questionA: {
       label: 'A. Has food intake declined over the past 3 months due to loss\n' +
         'of appetite, digestive problems, chewing or swallowing\n' +
         'difficulties?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'severe decrease in food intake', value: 0 },
         { label: ' moderate decrease in food intake', value: 1 },
@@ -29,7 +32,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionB: {
       label: 'B. Weight loss during the last 3 months?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'weight loss greater than 3kg (6.6lbs)', value: 0 },
         { label: 'does not know', value: 1 },
@@ -41,7 +44,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionC: {
       label: 'C. Mobility',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'bed or chair bound', value: 0 },
         { label: 'able to get out of bed / chair but does not go out', value: 1 },
@@ -52,7 +55,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionD: {
       label: 'D. Has suffered psychological stress or acute disease in the past 3 months?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'yes', value: 0 },
         { label: 'no', value: 1 },
@@ -62,7 +65,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionE: {
       label: 'E. Neuropsychological problems',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'severe dementia or depression', value: 0 },
         { label: 'mild dementia', value: 1 },
@@ -73,7 +76,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionF: {
       label: 'F. Body Mass Index (BMI) = weight in kg / (height in m) 2',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'BMI less than 19', value: 0 },
         { label: 'BMI 19 to less than 21', value: 1 },
@@ -82,10 +85,12 @@ export class MnaFormComponent implements OnInit {
       ],
       validation: {
         "required": true}
-    },
+    }
+  };
+  json2: any = {
     questionG: {
       label: 'G. Lives independently (not in nursing home or hospital)',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'yes', value: 0 },
         { label: 'no', value: 1 },
@@ -95,7 +100,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionH: {
       label: 'H. Takes more than 3 prescription drugs per day',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'yes', value: 0 },
         { label: 'no', value: 1 },
@@ -105,7 +110,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionI: {
       label: 'I. Pressure sores or skin ulcers',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'yes', value: 0 },
         { label: 'no', value: 1 },
@@ -115,7 +120,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionJ: {
       label: 'J. How many full meals does the patient eat daily?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: '1 meal', value: 0 },
         { label: '2 meals', value: 1 },
@@ -130,7 +135,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionK1: {
       label: 'K-1. Selected consumption markers for protein intake',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'no', value: 0 },
         { label: 'yes', value: 1 },
@@ -141,7 +146,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionK2: {
       label: 'K-2. Two or more servings of legumes or eggs per week',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'no', value: 0 },
         { label: 'yes', value: 1 },
@@ -152,7 +157,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionK3: {
       label: 'K-3. Meat, fish or poultry every day',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'no', value: 0 },
         { label: 'yes', value: 1 },
@@ -163,7 +168,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionL: {
       label: 'L. Consumes two or more servings of fruit or vegetables per day?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'no', value: 0 },
         { label: 'yes', value: 1 },
@@ -174,7 +179,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionM: {
       label: 'M. How much fluid (water, juice, coffee, tea, milk...) is consumed per day?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'less than 3 cups', value: 0 },
         { label: '3 to 5 cups', value: 0.5 },
@@ -185,7 +190,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionN: {
       label: 'N. Mode of feeding',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'unable to eat without assistance', value: 0 },
         { label: 'self-fed with some difficulty', value: 1 },
@@ -196,7 +201,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionO: {
       label: 'O. Self view of nutritional status',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'views self as being malnourished', value: 0 },
         { label: 'is uncertain of nutritional state', value: 1 },
@@ -207,7 +212,7 @@ export class MnaFormComponent implements OnInit {
     },
     questionP: {
       label: 'P. In comparison with other people of the same age, how does the patient consider his / her health status?',
-      type: 'radio',
+      type: 'select',
       options: [
         { label: 'not as good', value: 0},
         { label: 'does not know', value: 0.5 },
@@ -216,30 +221,7 @@ export class MnaFormComponent implements OnInit {
       ],
       validation: {
         "required": true}
-    },
-    questionQ: {
-      label: 'Q.  Mid-arm circumference (MAC) in cm',
-      type: 'radio',
-      options: [
-        { label: 'MAC less than 21', value: 0},
-        { label: 'MAC 21 to 22', value: 0.5 },
-        { label: 'MAC greater than 22', value: 1 },
-
-      ],
-      validation: {
-        "required": true}
-    },
-    questionR: {
-      label: 'R. Calf circumference (CC) in cm',
-      type: 'radio',
-      options: [
-        { label: 'CC less than 31', value: 0},
-        { label: ' CC 31 or greater', value: 1 },
-
-      ],
-      validation: {
-        "required": true}
-    },
+    }
   };
 
   constructor(private authService:AuthService,
@@ -261,6 +243,8 @@ export class MnaFormComponent implements OnInit {
     });
   }
 
+
+
   onSubmit() {
     this.submitted = true;
     console.log(this.mnaForm.controls)
@@ -274,8 +258,35 @@ export class MnaFormComponent implements OnInit {
     }
   }
 
-  components(fg: FormGroup) {
+  screeningScoreCalculation(fg) {
+    this.mnaBasicScore = 0;
     console.log(fg)
+    for(let eachAns of Object.keys(fg)){
+      this.mnaBasicScore+=(+fg[eachAns])
+    }
+    if(this.mnaBasicScore<=11){
+      this.startAssesment = true;
+    }
+  }
+
+  assesMentCalculation(fg){
+    this.assesMentScore = 0;
+    let kQuestionScore =(+fg['questionK1'])+(+fg['questionK2'])+(+fg['questionK3'])
+    delete fg['questionK1'];
+    delete fg['questionK2'];
+    delete fg['questionK3'];
+    if(kQuestionScore==3){
+      fg['questionK']=1
+    }else if(kQuestionScore==2){
+      fg['questionK']=0.5
+    }else{
+      fg['questionK']=0
+    }
+    for(let eachAns of Object.keys(fg)){
+      this.assesMentScore+=(+fg[eachAns])
+    }
+    this.totalScore=this.assesMentScore+this.mnaBasicScore;
+
   }
 
 }
