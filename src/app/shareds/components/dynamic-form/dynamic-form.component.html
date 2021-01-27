@@ -9,16 +9,16 @@
             <ng-container [ngSwitch]="prop.type">
 
               <input *ngSwitchCase="'text'" class="form-control" [formControlName]="prop.key" [id]="prop.key" [type]="prop.type">
-              <input *ngSwitchCase="'file'" type="file" [id]="prop.key" [formControlName]="prop.key">
-              <input *ngSwitchCase="'checkbox'" type="checkbox" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'email'" type="email" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'date'" type="date" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'datetime'" type="datetime" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'datetime-local'" type="datetime-local" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'number'" type="number" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'reset'" type="reset" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'tel'" type="tel" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
-              <input *ngSwitchCase="'url'" type="url" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'file'" class="form-control"  type="file" [id]="prop.key" [formControlName]="prop.key">
+              <input *ngSwitchCase="'checkbox'" class="form-control"  type="checkbox" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'email'" class="form-control"  type="email" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'date'" class="form-control"  type="date" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'datetime'" class="form-control"  type="datetime" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'datetime-local'" class="form-control"  type="datetime-local" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'number'"  type="number" class="form-control" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'reset'"  type="reset" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'tel'" class="form-control"  type="tel" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
+              <input *ngSwitchCase="'url'" class="form-control"  type="url" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
 
               <select [formControlName]="prop.key" *ngSwitchCase="'select'" class="form-control">
                 <option *ngFor="let option of prop.options" [value]="option.value">

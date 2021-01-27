@@ -2,4 +2,10 @@
   <div class="section-header">
     <h1>Welcome, {{userData.name}}</h1>
   </div>
+  <div class="row" *ngIf="showForm">
+    <h3>Please Fill Following Form</h3>
+  </div>
+  <div class="row " *ngIf="showForm">
+    <app-dynamic-form style="width: 100%" [formJson]="formJson" [debug]="false" (output)="submitFormData($event)"></app-dynamic-form>
+  </div>
 </section>

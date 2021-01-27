@@ -1,7 +1,7 @@
 <section class="section">
   <div class="container mt-5">
     <div class="row">
-      <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+      <div class="col-12 col-lg-6 col-md-6 col-sm-8 offset-lg-3 offset-md-3 offset-sm-2">
 
         <div class="card card-primary">
           <div class="card-header"><h4 style="width: 100%" class="text-center">Register</h4></div>
@@ -9,35 +9,62 @@
           <div class="card-body">
 
             <form (submit)="onSubmit()" [formGroup] ="form" class="needs-validation" novalidate="">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input id="email" formControlName="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
-                <div *ngIf="submitted && form.controls.email.errors" class="invalid-feedback">
-                  <div *ngIf="form.controls.email.errors.required">Please fill in your Email</div>
-                  <div *ngIf="form.controls.email.errors">Email must be a valid email address</div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="email">Email</label>
+                  <input id="email" formControlName="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                  <div *ngIf="submitted && form.controls.email.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.email.errors.required">Please fill in your Email</div>
+                    <div *ngIf="form.controls.email.errors">Email must be a valid email address</div>
+                  </div>
+                </div>
+                <div class="form-group col-6">
+                  <label for="mobile">Mobile</label>
+                  <input id="mobile" formControlName="mobile" type="tel" pattern="[6-9]{1}[0-9]{9}" class="form-control" name="mobile" tabindex="1" required autofocus>
+                  <div *ngIf="submitted && form.controls.mobile.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.mobile.errors.required">Please fill in your Mobile</div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input id="firstName" formControlName="firstName" type="text" class="form-control" name="firstName" tabindex="1" required autofocus>
-                <div *ngIf="submitted && form.controls.firstName.errors" class="invalid-feedback">
-                  <div *ngIf="form.controls.firstName.errors.required">Please fill in your First Name</div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="firstName">First Name</label>
+                  <input id="firstName" formControlName="firstName" type="text" class="form-control" name="firstName" tabindex="1" required autofocus>
+                  <div *ngIf="submitted && form.controls.firstName.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.firstName.errors.required">Please fill in your First Name</div>
+                  </div>
+                </div>
+                <div class="form-group col-6">
+                  <label for="lastName">Last Name</label>
+                  <input id="lastName" formControlName="lastName" type="text" class="form-control" name="lastName" tabindex="1" required autofocus>
+                  <div *ngIf="submitted && form.controls.lastName.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.lastName.errors.required">Please fill in your Last Name</div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input id="lastName" formControlName="lastName" type="text" class="form-control" name="lastName" tabindex="1" required autofocus>
-                <div *ngIf="submitted && form.controls.lastName.errors" class="invalid-feedback">
-                  <div *ngIf="form.controls.lastName.errors.required">Please fill in your Last Name</div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="height">Height</label>
+                  <input id="height" formControlName="height" type="number"  class="form-control" name="height" tabindex="1" required autofocus>
+                  <div *ngIf="submitted && form.controls.height.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.height.errors.required">Please fill in your height</div>
+                  </div>
+                </div>
+                <div class="form-group col-6">
+                  <label for="weight">weight</label>
+                  <input id="weight" formControlName="weight" type="number"  class="form-control" name="weight" tabindex="1" required autofocus>
+                  <div *ngIf="submitted && form.controls.weight.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.weight.errors.required">Please fill in your weight</div>
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="mobile">Mobile</label>
-                <input id="mobile" formControlName="mobile" type="tel" pattern="[6-9]{1}[0-9]{9}" class="form-control" name="mobile" tabindex="1" required autofocus>
-                <div *ngIf="submitted && form.controls.mobile.errors" class="invalid-feedback">
-                  <div *ngIf="form.controls.mobile.errors.required">Please fill in your Mobile</div>
-                </div>
-              </div>
+
+              <div class="row"></div>
+
+
+
+
+
 
                 <div class="form-group ">
                   <label for="dob">Date Of Birth</label>
@@ -79,7 +106,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group " *ngIf="this.form.value['user_type']=='doctor'">
+              <div class="form-group " >
                 <label for="hospital_id">Hospital Name</label>
                 <select id="hospital_id" formControlName = "hospital_id" type="text" class="form-control "  name="hospital_id"  >
                   <option *ngFor="let hospital of allHospital"  value="{{hospital['id']}}" >{{hospital['name'] | titlecase}}</option>

@@ -46,7 +46,7 @@ export class CommonService {
     url='http://127.0.0.1:5000/'+url;
     switch(type.toLowerCase()){
       case 'get':{
-        return this.http.get(url);
+        return this.http.get(url,body);
       }
       case 'post':{
         return this.http.post(url,body);

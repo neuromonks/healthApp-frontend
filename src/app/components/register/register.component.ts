@@ -41,6 +41,8 @@ export class RegisterComponent implements OnInit {
       mobile : ['', [Validators.required,]],
       dob : ['',[Validators.required,]],
       address:['',[Validators.required,]],
+      height:['',[Validators.required,]],
+      weight:['',[Validators.required,]],
       gender:['male',[Validators.required,]],
       agreement_check:[false,[Validators.required,]],
       hospital_id:['']
