@@ -67,3 +67,44 @@
     </div>
   </div>
 </section>
+<div class="row">
+  <div class="card col-md-12">
+    <div class="card-header d-flex justify-content-between">
+      <h3>Previous Data</h3>
+
+    </div>
+    <div class="card-body">
+      <div class="" *ngIf="previousMustData.length>0">
+        <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+          <thead>
+          <tr>
+            <th> TimeStamp</th>
+            <th>Screening Score </th>
+            <th>Assesment Score  </th>
+            <th>Total Score</th>
+            <th>Remark</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of previousMustData;let i = index">
+            <td>{{item['timestamp'] }}</td>
+            <td>{{item['screeningScore']}} </td>
+            <td>{{item['assessmentScore'] }}</td>
+            <td>{{item['finalScore'] }}</td>
+            <td>
+              <p *ngIf="item['finalScore']<=30 && item['finalScore']>=24">Normal nutritional status</p>
+              <p *ngIf="item['finalScore']<=23.5 && item['finalScore']>=17">At risk of malnutrition</p>
+              <p *ngIf="item['finalScore']<17 && item['finalScore']>=0">Malnourished</p>
+            </td>
+
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="previousMustData.length==0" class="text-center">
+        <h3>No Data Found</h3>
+      </div>
+    </div>
+  </div>
+</div>

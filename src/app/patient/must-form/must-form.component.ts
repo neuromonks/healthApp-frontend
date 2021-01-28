@@ -12,11 +12,12 @@ export class MustFormComponent implements OnInit {
   userData:any;
   mustForm: FormGroup;
   submitted = false;
-  dtOptions: any = {};
+
   weightLossPercentage = 0;
   bmi = 0;
   bmiScore = 0;
   totalNutritionScore = -1;
+  dtOptions: any = {};
   months = '';
   weigthData ;
   noDataError = false;
@@ -50,6 +51,17 @@ export class MustFormComponent implements OnInit {
     }else{
       this.noDataError = true;
       this.commonService.navigateTo('/patient');
+    }
+
+
+    for(let item of Object.keys(this.weigthData)){
+      if(!this.weigthData[item]['dataFlag']){
+        this.iziToast.warning({
+          title: 'Error!',
+          message: 'Please fill all required fields on dashboard',
+          position: 'topCenter'
+        });
+      }
     }
 
     let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",

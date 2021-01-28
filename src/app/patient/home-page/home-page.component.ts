@@ -73,8 +73,20 @@ export class HomePageComponent implements OnInit {
               this.months[eachMonthData['month']]['dataFlag']=true
             }
           }
-          localStorage.setItem('weightData',JSON.stringify(this.months));
+
+          let today = new Date();
+          let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+            "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+          ];
+          let year = today.getFullYear();
+          let month = today.getMonth();
+          if(this.months[monthNames[month]+'-'+year]['dataFlag']){
+            let bmi = this.months[monthNames[month]+'-'+year]['data']['weight']/((this.userData['height']/100)*(this.userData['height']/100));
+            localStorage.setItem('bmi',JSON.stringify(bmi));
+          }
           this.generateForm();
+          this.calculateWeightPercentageChange();
+          localStorage.setItem('weightData',JSON.stringify(this.months));
           this.commonService.loader(false);
         }else{
           this.generateForm();
@@ -151,6 +163,31 @@ export class HomePageComponent implements OnInit {
 
   getJSONKeyLength(json){
     return Object.keys(json).length
+  }
+
+  calculateWeightPercentageChange(){
+    let today = new Date();
+    let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "June",
+      "July", "Aug", "Sept", "Oct", "Nov", "Dec"
+    ];
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    let currentWeight=0;
+    if(this.months[monthNames[month]+'-'+year]['dataFlag']){
+      currentWeight = this.months[monthNames[month]+'-'+year]['data']['weight'];
+      if(currentWeight!=0){
+        for(let item of Object.keys(this.months)){
+          let lastWeight = this.months[item]['data']['weight'];
+          this.months[item]['data']['weightChangeP'] = ((currentWeight - lastWeight) / currentWeight) * 100;
+        }
+      }
+    }else{
+      this.iziToast.info({
+        title: 'Info',
+        message: 'Please update current weight',
+        position: 'topCenter'
+      });
+    }
   }
 
 

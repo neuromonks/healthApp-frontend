@@ -3,7 +3,7 @@
     <h1>NRS FORM</h1>
   </div>
 </section>
-<section class="section">
+<section class="section" *ngIf="firstForm">
   <div class="row">
     <div class="col-md-12">
       <form (submit)="onSubmit()" [formGroup] ="nrsForm" class="needs-validation" novalidate="">
@@ -63,12 +63,32 @@
           </div>
         </div>
 
+
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
             Submit
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</section>
+<section class="section" *ngIf="showTableTwo">
+  <div class="row">
+    <app-dynamic-form [formJson]="json" [debug]="false" (output)="secondFormCalculation($event)"></app-dynamic-form>
+  </div>
+</section>
+<section class="section" *ngIf="showTable1result">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>{{finalResult}}</h3>
+    </div>
+  </div>
+</section>
+<section class="section" *ngIf="showTable2result">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>{{finalResult}}</h3>
     </div>
   </div>
 </section>

@@ -72,8 +72,10 @@ export class LoginComponent implements OnInit {
           this.authService.loggedIn(data['result'][0]);
             if(data['result'][0]['user_type']=='patient'){
               this.commonService.navigateTo('/patient');
+            }else{
+              this.commonService.navigateTo('/admin');
             }
-            this.commonService.navigateTo('/admin');
+
 
         }else{
           this.iziToast.warning({

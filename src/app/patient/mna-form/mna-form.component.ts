@@ -16,6 +16,9 @@ export class MnaFormComponent implements OnInit {
   assesMentScore = -1;
   totalScore = -1;
   startAssesment = false;
+  dtOptions: any = {};
+  previousMustData = [];
+  screeningData;
   json: any = {
     questionA: {
       label: 'A. Has food intake declined over the past 3 months due to loss\n' +
@@ -238,9 +241,19 @@ export class MnaFormComponent implements OnInit {
         this.commonService.navigateTo('/login');
       }
     }
+    this.getMNAFormData();
     this.mnaForm = this.builder.group({
       questionA: ['', [Validators.required]],
     });
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 50,
+      dom: 'Bfrtip',
+      buttons: [
+
+      ]
+    };
+
   }
 
 
@@ -259,6 +272,7 @@ export class MnaFormComponent implements OnInit {
   }
 
   screeningScoreCalculation(fg) {
+    this.screeningData = fg;
     this.mnaBasicScore = 0;
     console.log(fg)
     for(let eachAns of Object.keys(fg)){
@@ -266,15 +280,30 @@ export class MnaFormComponent implements OnInit {
     }
     if(this.mnaBasicScore<=11){
       this.startAssesment = true;
+    }else{
+      let dataToSend = fg;
+      dataToSend['patient_id']=this.userData['id']
+      this.commonService.apiCall('post', 'form/mna', dataToSend).subscribe(
+        data => {
+          console.log(data)
+          this.iziToast.info({
+            title: 'Info',
+            message: data['message'],
+            position: 'topCenter'
+          });
+        },
+        error => {
+          console.log(error)
+        }
+      );
     }
   }
 
   assesMentCalculation(fg){
+    let dataToSend = this.screeningData;
     this.assesMentScore = 0;
     let kQuestionScore =(+fg['questionK1'])+(+fg['questionK2'])+(+fg['questionK3'])
-    delete fg['questionK1'];
-    delete fg['questionK2'];
-    delete fg['questionK3'];
+
     if(kQuestionScore==3){
       fg['questionK']=1
     }else if(kQuestionScore==2){
@@ -282,11 +311,62 @@ export class MnaFormComponent implements OnInit {
     }else{
       fg['questionK']=0
     }
+    for(let eachKey of Object.keys(fg)){
+      dataToSend[eachKey]=fg[eachKey]
+    }
+    delete fg['questionK1'];
+    delete fg['questionK2'];
+    delete fg['questionK3'];
     for(let eachAns of Object.keys(fg)){
       this.assesMentScore+=(+fg[eachAns])
     }
-    this.totalScore=this.assesMentScore+this.mnaBasicScore;
+    dataToSend['assessmentScore']=this.assesMentScore;
+    dataToSend['screeningScore']=this.mnaBasicScore;
+    dataToSend['patient_id']=this.userData['id'];
 
+    this.totalScore=this.assesMentScore+this.mnaBasicScore;
+    this.commonService.apiCall('post', 'form/mna', dataToSend).subscribe(
+      data => {
+        console.log(data)
+        this.iziToast.info({
+          title: 'Info',
+          message: data['message'],
+          position: 'topCenter'
+        });
+      },
+      error => {
+        console.log(error)
+      }
+    );
   }
 
+  getMNAFormData(){
+    this.commonService.loader(true);
+    this.commonService.apiCall('get','form/mna?patient_id='+this.userData['id']).subscribe(
+      data=>{
+        if(data['success']){
+          this.previousMustData = data['result']
+          for(let eachEntry of this.previousMustData){
+            eachEntry['finalScore']=eachEntry['assessmentScore']+eachEntry['screeningScore'];
+          }
+          this.commonService.loader(false);
+        }else{
+          this.commonService.loader(false);
+          this.iziToast.warning({
+            title: 'Warning',
+            message: data['message'],
+            position: 'topCenter'
+          });
+        }
+      },
+      error=>{
+        this.commonService.loader(false);
+        this.iziToast.warning({
+          title: 'Warning',
+          message: error['message'],
+          position: 'topCenter'
+        });
+      }
+    );
+  }
 }
