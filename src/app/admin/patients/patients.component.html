@@ -30,7 +30,7 @@
             <td>
               <button class="btn btn-info mr-2" (click)="details(i);lgModal.show()" > Details </button>
               <button  class="btn btn-warning mr-2" (click)="edit(i);lgModal.show()">Edit</button>
-              <button class="btn btn-danger mr-2" >Delete</button>
+              <a [routerLink] = "['/' , 'admin' , 'patient','details',item['id'] ]" class="btn btn-danger mr-2" *ngIf="userData['user_type']=='doctor'" >Medical Details</a>
             </td>
           </tr>
 

@@ -92,7 +92,7 @@
     </div>
   </div>
 </section>
-<section class="section" *ngIf="showTableTwo">
+<section class="section" *ngIf="!showTable2result">
   <div class="row">
     <app-dynamic-form [formJson]="json" [debug]="false" (output)="secondFormCalculation($event)"></app-dynamic-form>
   </div>
@@ -107,7 +107,7 @@
 <section class="section" *ngIf="showTable2result">
   <div class="row">
     <div class="col-md-12">
-      <h3>{{finalResult}}</h3>
+      <h3>Result : {{finalResult}}</h3>
     </div>
   </div>
 </section>
@@ -124,12 +124,7 @@
           <tr>
             <th> TimeStamp</th>
 
-            <th>Is BMI <20.5</th>
-            <th>Lost weight within the last 3 months?</th>
-            <th>Had a reduced dietary intake in the last week?</th>
-            <th>Is the patient severely ill?</th>
-            <th>Impaired nutritional status</th>
-            <th>Severity of disease (E increase in requirements)</th>
+            <th *ngFor="let eachItem of getJsonKeys(json)">{{json[eachItem]['label'] | titlecase}} </th>
             <th>Final Score</th>
             <th>Remark</th>
           </tr>
@@ -137,12 +132,7 @@
           <tbody>
           <tr *ngFor="let item of previousMustData;let i = index">
             <td>{{item['timestamp'] }}</td>
-            <td>{{item['bmiIndicator']?'True':'False'}}</td>
-            <td>{{item['weightChange']?'True':'False'}}</td>
-            <td>{{item['dieteryIntakeLost']?'True':'False'}}</td>
-            <td>{{item['illFlag']?'True':'False'}}</td>
-            <td>{{item['nutritionStatus']?getValueOfFormOption('nutritionStatus',item['nutritionStatus']):'NA'}}</td>
-            <td>{{item['disease']?getValueOfFormOption('disease',item['disease']):'NA'}}</td>
+            <td *ngFor="let eachItem of getJsonKeys(json)">{{getValueOfFormOption(eachItem,item[eachItem]) | titlecase }}  </td>
             <td> {{item['finalScore']}}
             </td>
             <td> {{item['finalResult']}}

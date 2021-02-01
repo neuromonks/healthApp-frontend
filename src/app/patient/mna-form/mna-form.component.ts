@@ -18,6 +18,7 @@ export class MnaFormComponent implements OnInit {
   startAssesment = false;
   dtOptions: any = {};
   previousMustData = [];
+  weigthData;
   screeningData;
   json: any = {
     questionA: {
@@ -241,6 +242,22 @@ export class MnaFormComponent implements OnInit {
         this.commonService.navigateTo('/login');
       }
     }
+    if(localStorage.getItem('weightData'))
+    {
+      this.weigthData = JSON.parse(localStorage.getItem('weightData'))
+    }else{
+
+      this.commonService.navigateTo('/patient');
+    }
+    for(let item of Object.keys(this.weigthData)){
+      if(!this.weigthData[item]['dataFlag']){
+        this.iziToast.warning({
+          title: 'Error!',
+          message: 'Please fill all required fields on dashboard',
+          position: 'topCenter'
+        });
+      }
+    }
     this.getMNAFormData();
     this.mnaForm = this.builder.group({
       questionA: ['', [Validators.required]],
@@ -368,5 +385,21 @@ export class MnaFormComponent implements OnInit {
         });
       }
     );
+  }
+
+  getJsonKeys(json){
+    return Object.keys(json);
+  }
+
+  getValueOfFormOption(key,value){
+    let ans = '';
+    for(let eachOption of this.json[key]['options']){
+      if(eachOption['value']==value){
+        ans = eachOption['label'];
+        break;
+      }
+    }
+
+    return ans;
   }
 }

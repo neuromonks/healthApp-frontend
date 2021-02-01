@@ -5,6 +5,7 @@ import {HomePageComponent} from "./home-page/home-page.component";
 import {PatientComponent} from "./patient.component";
 import {NrsFormComponent} from "./nrs-form/nrs-form.component";
 import {MnaFormComponent} from "./mna-form/mna-form.component";
+import {Mnst20Component} from "./mnst20/mnst20.component";
 
 const routes: Routes = [{
   path:'',
@@ -25,6 +26,10 @@ const routes: Routes = [{
     {
       path:'mnaForm',
       component:MnaFormComponent
+    },
+    {
+      path:'mnst20Form',
+      component:Mnst20Component
     },
 
 

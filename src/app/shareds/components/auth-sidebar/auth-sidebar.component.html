@@ -4,7 +4,7 @@
       <a [routerLink]="['/', AppURL.Authen]">HeathApp</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-      <a [routerLink]="['/', AppURL.Authen]">G</a>
+      <a [routerLink]="['/', AppURL.Authen]">HA</a>
     </div>
     <ul class="sidebar-menu" >
       <li class="menu-header">Dashboard</li>
@@ -30,6 +30,14 @@
         </a>
       </li>
       </ng-container>
+      <ng-container *ngIf="userData.user_type=='doctor'">
+
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'admin' , 'patient']">
+            <i class="fa fa-home mx-auto"></i> <span>All Patients</span>
+          </a>
+        </li>
+      </ng-container>
       <ng-container *ngIf="userData.user_type=='patient'">
         <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink] = "['/' , 'patient' ]">
@@ -49,6 +57,11 @@
         <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink] = "['/' , 'patient' , 'mnaForm']">
             <i class="fa fa-home mx-auto"></i> <span>MNA Form</span>
+          </a>
+        </li>
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'patient' , 'mnst20Form']">
+            <i class="fa fa-home mx-auto"></i> <span>MNST-20 Form</span>
           </a>
         </li>
       </ng-container>

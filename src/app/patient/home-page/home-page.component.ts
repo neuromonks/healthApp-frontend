@@ -189,6 +189,8 @@ export class HomePageComponent implements OnInit {
       });
     }
   }
-
+  getJsonKeys(json){
+    return Object.keys(json);
+  }
 
 }

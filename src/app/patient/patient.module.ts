@@ -13,9 +13,10 @@ import {ExportAsModule} from "ngx-export-as";
 import {ModalModule} from "ngx-bootstrap/modal";
 import { NrsFormComponent } from './nrs-form/nrs-form.component';
 import { MnaFormComponent } from './mna-form/mna-form.component';
+import { Mnst20Component } from './mnst20/mnst20.component';
 
 @NgModule({
-  declarations: [MustFormComponent, HomePageComponent, PatientComponent, NrsFormComponent, MnaFormComponent],
+  declarations: [MustFormComponent, HomePageComponent, PatientComponent, NrsFormComponent, MnaFormComponent, Mnst20Component],
   imports: [
     CommonModule,
     PatientRoutingModule,

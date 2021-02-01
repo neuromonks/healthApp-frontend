@@ -1,0 +1,190 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Patient Details</h1>
+  </div>
+</section>
+<section class="section">
+  <div class="row">
+    <div class="col-12  ">
+      <div class="card">
+
+        <div class="card-body">
+          <ul class="nav nav-pills" id="myTab3" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active show" (click)="getMustFormData()" id="home-tab3" data-toggle="tab" href="#home3" role="tab" aria-controls="home" aria-selected="true">MUST FORM</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab3" (click)="getNRSFormData()" data-toggle="tab" href="#profile3" role="tab" aria-controls="profile" aria-selected="false">NRS FORM</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="getMNAFormData()" id="contact-tab3" data-toggle="tab" href="#contact3" role="tab" aria-controls="contact" aria-selected="false">MNA FORM</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="mnst-tab3" (click)="getMNSTFormData()" data-toggle="tab" href="#mnst" role="tab" aria-controls="profile" aria-selected="false">MNST-20 FORM</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent2">
+            <div class="tab-pane fade active show" id="home3" role="tabpanel" aria-labelledby="home-tab3">
+              <div class="" *ngIf="mustData.length>0">
+                <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+                  <thead>
+                  <tr>
+                    <th> TimeStamp</th>
+                    <th>Nutrie Intake Score </th>
+                    <th>BMI  </th>
+                    <th>BMI Score</th>
+                    <th > Weight Change Percentage </th>
+                    <th> Wigth Change Score</th>
+                    <th>Final Score</th>
+                    <th>Remark</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of mustData;let i = index">
+                    <td>{{item['timestamp'] }}</td>
+                    <td>{{item['nutrient_intake']?'2':'0'}} </td>
+                    <td>{{item['bmi'] }}</td>
+                    <td>{{item['bmi_score'] }}</td>
+                    <td>{{item['weight_change_percentage'] }}</td>
+                    <td>{{item['weight_change_score'] }}</td>
+                    <td>{{item['finalScore'] }}</td>
+                    <td>
+            <pre *ngIf="item['finalScore']>=0 && item['finalScore']<1">
+          Repeat screening
+          Hospital  – weekly
+          Care Homes– monthly
+          Community  – annually
+          for special groups e.g. those >75 yrs
+        </pre>
+                      <pre *ngIf="item['finalScore']>=1 && item['finalScore']<2">
+          Document dietary intake for 3 days
+           If adequate
+           – little concern and repeat screening Hospital – weekly
+          Care Home – at least monthly Community – at least every 2-3 months
+           If inadequate
+          – clinical concern
+          – follow local policy, set goals, improve and increase overall nutritional intake, monitor and review care plan regularly
+        </pre>
+                      <pre *ngIf="item['finalScore']>=2 ">
+          Refer to dietician, Nutritional Support Team or implement local policy
+          Set goals, improve and increase overall nutritional intake
+          Monitor and review care plan Hospital  – weekly
+          Care Home – monthly Community – monthly
+          * Unless detrimental or no benefit is expected from nutritional support e.g. imminent death
+        </pre></td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="mustData.length==0" class="text-center">
+                <h3>No Data Found</h3>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profile3" role="tabpanel" aria-labelledby="profile-tab3">
+              <div class="" *ngIf="previousNRSData.length>0">
+                <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+                  <thead>
+                  <tr>
+                    <th> TimeStamp</th>
+
+                    <th>Is BMI <20.5</th>
+                    <th>Lost weight within the last 3 months?</th>
+                    <th>Had a reduced dietary intake in the last week?</th>
+                    <th>Is the patient severely ill?</th>
+                    <th>Impaired nutritional status</th>
+                    <th>Severity of disease (E increase in requirements)</th>
+                    <th>Final Score</th>
+                    <th>Remark</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of getNRSFormData();let i = index">
+                    <td>{{item['timestamp'] }}</td>
+                    <td>{{item['bmiIndicator']?'True':'False'}}</td>
+                    <td>{{item['weightChange']?'True':'False'}}</td>
+                    <td>{{item['dieteryIntakeLost']?'True':'False'}}</td>
+                    <td>{{item['illFlag']?'True':'False'}}</td>
+                    <td>{{item['nutritionStatus']?getValueOfNRSFormOption('nutritionStatus',item['nutritionStatus']):'NA'}}</td>
+                    <td>{{item['disease']?getValueOfNRSFormOption('disease',item['disease']):'NA'}}</td>
+                    <td> {{item['finalScore']}}
+                    </td>
+                    <td> {{item['finalResult']}}
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="previousNRSData.length==0" class="text-center">
+                <h3>No Data Found</h3>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="mnst" role="tabpanel" aria-labelledby="profile-tab3">
+              <div class="" *ngIf="previousMNSTData.length>0">
+                <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+                  <thead>
+                  <tr>
+                    <th> TimeStamp</th>
+
+                    <th *ngFor="let eachItem of getJsonKeys(json)">{{json[eachItem]['label'] | titlecase}} </th>
+                    <th>Final Score</th>
+                    <th>Remark</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of previousMNSTData;let i = index">
+                    <td>{{item['timestamp'] }}</td>
+                    <td *ngFor="let eachItem of getJsonKeys(json)">{{getValueOfFormOption(eachItem,item[eachItem]) | titlecase }}  </td>
+                    <td> {{item['finalScore']}}
+                    </td>
+                    <td> {{item['finalResult']}}
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="previousMNSTData.length==0" class="text-center">
+                <h3>No Data Found</h3>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="contact3" role="tabpanel" aria-labelledby="contact-tab3">
+              <div class="" *ngIf="mnaData.length>0">
+                <table datatable [dtOptions]="dtOptions" class="table table-responsive dataTable no-footer">
+                  <thead>
+                  <tr>
+                    <th> TimeStamp</th>
+                    <th>Screening Score </th>
+                    <th>Assesment Score  </th>
+                    <th>Total Score</th>
+                    <th>Remark</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of mnaData;let i = index">
+                    <td>{{item['timestamp'] }}</td>
+                    <td>{{item['screeningScore']}} </td>
+                    <td>{{item['assessmentScore'] }}</td>
+                    <td>{{item['finalScore'] }}</td>
+                    <td>
+                      <p *ngIf="item['finalScore']<=30 && item['finalScore']>=24">Normal nutritional status</p>
+                      <p *ngIf="item['finalScore']<=23.5 && item['finalScore']>=17">At risk of malnutrition</p>
+                      <p *ngIf="item['finalScore']<17 && item['finalScore']>=0">Malnourished</p>
+                    </td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="mnaData.length==0" class="text-center">
+                <h3>No Data Found</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

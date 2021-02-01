@@ -9,3 +9,22 @@
     <app-dynamic-form style="width: 100%" [formJson]="formJson" [debug]="false" (output)="submitFormData($event)"></app-dynamic-form>
   </div>
 </section>
+<section class="section" *ngIf="!showForm">
+  <div class="row">
+    <div class="card mt-4">
+      <div class="card-header">
+        <h4>Popular Browser</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col mb-4 mb-lg-0 text-center" *ngFor="let eachMonth of getJsonKeys(months)">
+            <div class="fa fa-balance-scale"></div>
+            <div class="mt-2 font-weight-bold">{{eachMonth}}</div>
+            <div class="text-small text-muted"><span [ngClass]="months[eachMonth]['data']['weightChangeP']>=0?'text-primary':'text-danger'" class=""><i class="fa" [ngClass]="months[eachMonth]['data']['weightChangeP']>=0?'fa-caret-up':'fa-caret-down'"></i></span> {{months[eachMonth]['data']['weightChangeP'] | number : '1.2-2'}}%</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

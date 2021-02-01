@@ -12,9 +12,10 @@ import { DoctorsComponent } from './doctors/doctors.component';
 import { PatientsComponent } from './patients/patients.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HospitalComponent } from './hospital/hospital.component';
+import { PatientDetailsComponent } from './patient-details/patient-details.component';
 
 @NgModule({
-  declarations: [AdminComponent, HomePageComponent, DoctorsComponent, PatientsComponent, HospitalComponent, ],
+  declarations: [AdminComponent, HomePageComponent, DoctorsComponent, PatientsComponent, HospitalComponent, PatientDetailsComponent, ],
   imports: [
     CommonModule,
     AdminRoutingModule,

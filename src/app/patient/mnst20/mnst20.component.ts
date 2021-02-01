@@ -4,11 +4,11 @@ import {AuthService, CommonService} from "../../services";
 import {Ng2IzitoastService} from "ng2-izitoast";
 
 @Component({
-  selector: 'app-nrs-form',
-  templateUrl: './nrs-form.component.html',
-  styleUrls: ['./nrs-form.component.css']
+  selector: 'app-mnst20',
+  templateUrl: './mnst20.component.html',
+  styleUrls: ['./mnst20.component.css']
 })
-export class NrsFormComponent implements OnInit {
+export class Mnst20Component implements OnInit {
   userData:any;
   nrsForm: FormGroup;
   submitted = false;
@@ -18,11 +18,89 @@ export class NrsFormComponent implements OnInit {
   previousMustData = [];
   dtOptions: any = {};
   bmiValue ;
-  showTableTwo = false;
-  firstForm =true;
+  showTableTwo = true;
+  firstForm =false;
+  mnst20BasicScore = 0
   table2Score = -1;
   json: any = {
-  };
+    bmi: {
+      label: 'BMI Score Range',
+      type: 'select',
+      options: [
+        { label: 'BMI is > 20', value: 0 },
+        { label: 'BMI is Between 18.5 - 20', value: 1 },
+        {label: 'BMI is < 18.5 ',value:2}
+      ],
+      validation: {
+        "required": true}
+    },
+    nutritionHealth: {
+      label: 'If there has been no nutrition intake for > 5 days ',
+      type: 'select',
+      options: [
+        { label: 'Yes', value: 2 },
+        { label: 'No', value: 0 }
+      ],
+      validation: {
+        "required": true}
+    },
+    nutritionStatus: {
+      label: 'Impaired nutritional status',
+      type: 'select',
+      options: [
+        { label: 'Normal nutritional status', value: 0 },
+        { label: 'Wt loss 45% in 3 months', value: 1 },
+        {label: 'Wt loss 45% in 2 months ',value:2},
+        {label: 'Wt loss 45% in 1 month ',value:3}
+      ],
+      validation: {
+        "required": true}
+    },
+    disease: {
+      label: 'Severity of disease (E increase in requirements)',
+      type: 'select',
+      options: [
+        { label: 'Hip fracture* Chronic patients, in particular with acute complications: cirrhosis*, COPD*. Chronic hemodialysis, diabetes, oncology', value: 1 },
+        { label: 'Major abdominal surgery* Stroke* Severe pneumonia, hematologic malignancy', value: 2 },
+        {label: 'Head injury* Bone marrow transplantation* Intensive care patients (APACHE410).',value:3},
+        {label: 'Normal nutritional requirements',value:0}
+      ],
+      validation: {
+        "required": true}
+    },
+    mobility: {
+      label: 'Mobility',
+      type: 'select',
+      options: [
+        { label: 'bed or chair bound', value: 0 },
+        { label: 'able to get out of bed / chair but does not go out', value: 1 },
+        {label: 'goes out',value:2},
+      ],
+      validation: {
+        "required": true}
+    },modeOfFeeding: {
+      label: 'Mode of feeding',
+      type: 'select',
+      options: [
+        { label: 'unable to eat without assistance', value: 0 },
+        { label: 'self-fed with some difficulty', value: 1 },
+        { label: ' self-fed without any problem', value: 2 },
+      ],
+      validation: {
+        "required": true}
+    },
+    healthStatus: {
+      label: 'In comparison with other people of the same age, how does the patient consider his / her health status?',
+      type: 'select',
+      options: [
+        { label: 'not as good', value: 0},
+        { label: 'does not know', value: 0.5 },
+        { label: 'as good', value: 1 },
+        { label: 'better', value: 1 },
+      ],
+      validation: {
+        "required": true}
+    }};
   showTable1result = false;
   showTable2result = false;
   finalResult = '';
@@ -126,7 +204,7 @@ export class NrsFormComponent implements OnInit {
         });
       }
     }
-    this.getNRSFormData();
+    this.getMNST20FormData();
     let dob=new Date(this.userData['dob'])
     let month_diff = Date.now() - dob.getTime();
 
@@ -157,10 +235,21 @@ export class NrsFormComponent implements OnInit {
       return;
     }
     this.firstForm = false;
-    let dataToSend = {};
     if(this.nrsForm.value.bmiIndicator == "1" || this.nrsForm.value.weightChange == "1" || this.nrsForm.value.dieteryIntakeLost == "1" || this.nrsForm.value.illFlag == "1"){
       if(this.nrsForm.value.illFlag == "1"){
         this.json={
+          bmiRange: {
+            label: 'BMI (kg/m2)',
+            type: 'select',
+            options: [
+              { label: 'Normal nutritional status', value: 0 },
+              { label: 'Wt loss 45% in 3 mths or Food intake below 50–75% of normal requirement in preceding week', value: 1 },
+              {label: 'Wt loss 45% in 2 mths or BMI 18.5 – 20.5 + impaired general condition or Food intake 25–60% of normal requirement in preceding week',value:2},
+              {label: 'Wt loss 45% in 1 mth (415% in 3 mths) or BMI o18.5 + impaired general condition or Food intake 0-25% of normal requirement in preceding week in preceding week',value:3}
+            ],
+            validation: {
+              "required": true}
+          },
           nutritionStatus: {
             label: 'Impaired nutritional status',
             type: 'select',
@@ -199,38 +288,14 @@ export class NrsFormComponent implements OnInit {
             validation: {
               "required": true}
           },
-          }
+        }
       }
       this.showTableTwo = true;
     }else{
       this.finalResult = 'The patient is re-screened at weekly intervals';
       this.showTable1result = true;
-      dataToSend['bmiIndicator']=(+this.nrsForm.value.bmiIndicator)
-      dataToSend['weightChange']=(+this.nrsForm.value.weightChange)
-      dataToSend['dieteryIntakeLost']=(+this.nrsForm.value.dieteryIntakeLost)
-      dataToSend['illFlag']=(+this.nrsForm.value.illFlag)
-      dataToSend['finalResult']=this.finalResult
-      dataToSend['patient_id']=this.userData['id']
-      dataToSend['finalScore']= dataToSend['bmiIndicator']+dataToSend['weightChange']+dataToSend['dieteryIntakeLost']+dataToSend['illFlag']
-      this.commonService.apiCall('post','form/nrs',dataToSend).subscribe(data=>{
-        this.getNRSFormData()
-        this.iziToast.info({
-          title: 'Info',
-          message: data['message'],
-          position: 'topCenter'
-        });
-      },error=>{
-        console.log(error);
-        this.iziToast.info({
-          title: 'Info',
-          message: error['message'],
-          position: 'topCenter'
-        });
-      });
     }
     this.firstForm = false;
-
-
 
   }
 
@@ -239,42 +304,33 @@ export class NrsFormComponent implements OnInit {
   }
 
   secondFormCalculation(fg){
-    let dataToSend = {}
-    if(fg.hasOwnProperty('disease') && fg.hasOwnProperty('nutritionStatus')){
-      this.table2Score = fg['disease']+fg['nutritionStatus']
-      dataToSend['disease']=fg['disease']
-      dataToSend['nutritionStatus']=fg['nutritionStatus']
+    this.mnst20BasicScore = 0;
 
-    }else if(fg.hasOwnProperty('nutritionStatus')){
-      this.table2Score = fg['nutritionStatus']
-      dataToSend['nutritionStatus']=fg['nutritionStatus']
+    for(let eachAns of Object.keys(fg)){
+      this.mnst20BasicScore+=(+fg[eachAns])
     }
 
-    if(this.ageOfPerson>70){
-      this.table2Score+1;
-    }
-    if(this.table2Score>=3){
-      this.finalResult = 'The patient is nutritionally at-risk and a nutritional care plan is initiated ';
-      this.showTable2result=true;
+
+
+    if(this.mnst20BasicScore>=0 && this.mnst20BasicScore<=4){
+      this.finalResult = 'Low Nutrition Risk';
+    }else if(this.mnst20BasicScore>=4.1 && this.mnst20BasicScore<=9) {
+      this.finalResult = 'Medium Nutrition  Risk';
     }else{
-      this.finalResult = 'Weekly rescreening of the patient';
-      this.showTable2result=true;
+      this.finalResult = 'High Nutrition Risk';
     }
-    this.showTableTwo = false
-    dataToSend['bmiIndicator']=(+this.nrsForm.value.bmiIndicator)
-    dataToSend['weightChange']=(+this.nrsForm.value.weightChange)
-    dataToSend['dieteryIntakeLost']=(+this.nrsForm.value.dieteryIntakeLost)
-    dataToSend['illFlag']=(+this.nrsForm.value.illFlag)
-    dataToSend['finalResult']=this.finalResult
-    dataToSend['patient_id']=this.userData['id']
-    dataToSend['finalScore']= dataToSend['bmiIndicator']+dataToSend['weightChange']+dataToSend['dieteryIntakeLost']+dataToSend['illFlag']+this.table2Score;
-    this.commonService.apiCall('post','form/nrs',dataToSend).subscribe(data=>{
+      this.showTable2result = true;
+    let dataToSend = {};
+    dataToSend = JSON.parse(JSON.stringify(fg));
+    dataToSend['patient_id'] = this.userData['id'];
+    dataToSend['finalScore'] = this.mnst20BasicScore;
+    dataToSend['finalResult'] = this.finalResult;
+    this.commonService.apiCall('post','form/mnst',dataToSend).subscribe(data=>{
       this.iziToast.info({
         title: 'Info',
         message: data['message'],
         position: 'topCenter'
       });
-      this.getNRSFormData()
     },error=>{
       console.log(error);
       this.iziToast.info({
@@ -283,11 +339,12 @@ export class NrsFormComponent implements OnInit {
         position: 'topCenter'
       });
     });
+
   }
 
-  getNRSFormData(){
+  getMNST20FormData(){
     this.commonService.loader(true);
-    this.commonService.apiCall('get','form/nrs?patient_id='+this.userData['id']).subscribe(
+    this.commonService.apiCall('get','form/mnst?patient_id='+this.userData['id']).subscribe(
       data=>{
         if(data['success']){
           this.previousMustData = data['result']
@@ -313,33 +370,8 @@ export class NrsFormComponent implements OnInit {
   }
 
   getValueOfFormOption(key,value){
-    let formData = {
-      nutritionStatus: {
-        label: 'Impaired nutritional status',
-        type: 'select',
-        options: [
-          { label: 'Normal nutritional status', value: 0 },
-          { label: 'Wt loss 45% in 3 mths or Food intake below 50–75% of normal requirement in preceding week', value: 1 },
-          {label: 'Wt loss 45% in 2 mths or BMI 18.5 – 20.5 + impaired general condition or Food intake 25–60% of normal requirement in preceding week',value:2},
-          {label: 'Wt loss 45% in 1 mth (415% in 3 mths) or BMI o18.5 + impaired general condition or Food intake 0-25% of normal requirement in preceding week in preceding week',value:3}
-        ],
-        validation: {
-          "required": true}
-      },
-      disease: {
-        label: 'Severity of disease (E increase in requirements)',
-        type: 'select',
-        options: [
-          { label: 'Hip fracture* Chronic patients, in particular with acute complications: cirrhosis*, COPD*. Chronic hemodialysis, diabetes, oncology', value: 1 },
-          { label: 'Major abdominal surgery* Stroke* Severe pneumonia, hematologic malignancy', value: 2 },
-          {label: 'Head injury* Bone marrow transplantation* Intensive care patients (APACHE410).',value:3},
-          {label: 'Normal nutritional requirements',value:0}
-        ],
-        validation: {
-          "required": true}
-      },};
     let ans = '';
-    for(let eachOption of formData[key]['options']){
+    for(let eachOption of this.json[key]['options']){
       if(eachOption['value']==value){
         ans = eachOption['label'];
         break;

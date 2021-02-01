@@ -72,6 +72,8 @@ export class LoginComponent implements OnInit {
           this.authService.loggedIn(data['result'][0]);
             if(data['result'][0]['user_type']=='patient'){
               this.commonService.navigateTo('/patient');
+            }else if(data['result'][0]['user_type']=='doctor'){
+              this.commonService.navigateTo('/admin/patient');
             }else{
               this.commonService.navigateTo('/admin');
             }

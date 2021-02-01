@@ -3,7 +3,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IAngularMyDpOptions,IMyDateModel} from "angular-mydatepicker";
 import {Ng2IzitoastService} from "ng2-izitoast";
-import {CommonService} from "../../services";
+import {AuthService, CommonService} from "../../services";
 
 @Component({
   selector: 'app-patients',
@@ -20,7 +20,7 @@ export class PatientsComponent implements OnInit {
   allHospital = []
   viewOnly=false;
   selectedIndex=-1;
-
+  userData:any;
   myOptions: IAngularMyDpOptions = {
     dateRange: false,
     dateFormat: 'dd-mm-yyyy'
@@ -29,9 +29,11 @@ export class PatientsComponent implements OnInit {
   constructor(private iziToast: Ng2IzitoastService ,
               private builder: FormBuilder,
               private commonService:CommonService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService,
+              private authService:AuthService) { }
 
   ngOnInit() {
+    this.userData = this.authService.getUserInfo();
     this.form = this.builder.group({
       email: ['', [Validators.required,Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -93,11 +95,20 @@ export class PatientsComponent implements OnInit {
       data=>{
         if(data['success']){
           console.log(data)
-          for(let user of data['result']){
-            if(user['user_type']=='patient'){
-              this.allInactiveUser.push(user);
+          if(this.userData['user_type']=='doctor'){
+            for(let user of data['result']){
+              if(user['user_type']=='patient' && user['hospital_id']==this.userData['hospital_id']){
+                this.allInactiveUser.push(user);
+              }
+            }
+          }else{
+            for(let user of data['result']){
+              if(user['user_type']=='patient'){
+                this.allInactiveUser.push(user);
+              }
             }
           }
+
           this.commonService.loader(false);
         }else{
           this.commonService.loader(false);

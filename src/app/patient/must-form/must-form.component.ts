@@ -194,5 +194,9 @@ export class MustFormComponent implements OnInit {
     );
   }
 
+  getJsonKeys(json){
+    return Object.keys(json);
+  }
+
 
 }
