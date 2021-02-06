@@ -145,7 +145,8 @@ export class MustFormComponent implements OnInit {
       "bmi": this.bmi,
       "bmi_score": this.bmiScore,
       "weight_change_percentage": this.weightLossPercentage,
-      "weight_change_score": this.mustForm.value.weightChangeFlag
+      "weight_change_score": this.mustForm.value.weightChangeFlag,
+      "finalScore":this.totalNutritionScore,
     }
 
     this.commonService.apiCall('post', 'form/must', dataToSend).subscribe(

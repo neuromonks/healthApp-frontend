@@ -211,7 +211,7 @@ export class NrsFormComponent implements OnInit {
       dataToSend['illFlag']=(+this.nrsForm.value.illFlag)
       dataToSend['finalResult']=this.finalResult
       dataToSend['patient_id']=this.userData['id']
-      dataToSend['finalScore']= dataToSend['bmiIndicator']+dataToSend['weightChange']+dataToSend['dieteryIntakeLost']+dataToSend['illFlag']
+      dataToSend['finalScore']= (+dataToSend['bmiIndicator'])+(+dataToSend['weightChange'])+(+dataToSend['dieteryIntakeLost'])+(+dataToSend['illFlag'])
       this.commonService.apiCall('post','form/nrs',dataToSend).subscribe(data=>{
         this.getNRSFormData()
         this.iziToast.info({
@@ -241,13 +241,13 @@ export class NrsFormComponent implements OnInit {
   secondFormCalculation(fg){
     let dataToSend = {}
     if(fg.hasOwnProperty('disease') && fg.hasOwnProperty('nutritionStatus')){
-      this.table2Score = fg['disease']+fg['nutritionStatus']
-      dataToSend['disease']=fg['disease']
-      dataToSend['nutritionStatus']=fg['nutritionStatus']
+      this.table2Score = (+fg['disease'])+(+fg['nutritionStatus'])
+      dataToSend['disease']=(+fg['disease'])
+      dataToSend['nutritionStatus']=(+fg['nutritionStatus'])
 
     }else if(fg.hasOwnProperty('nutritionStatus')){
-      this.table2Score = fg['nutritionStatus']
-      dataToSend['nutritionStatus']=fg['nutritionStatus']
+      this.table2Score = (+fg['nutritionStatus'])
+      dataToSend['nutritionStatus']=(+fg['nutritionStatus'])
     }
 
     if(this.ageOfPerson>70){
@@ -267,7 +267,7 @@ export class NrsFormComponent implements OnInit {
     dataToSend['illFlag']=(+this.nrsForm.value.illFlag)
     dataToSend['finalResult']=this.finalResult
     dataToSend['patient_id']=this.userData['id']
-    dataToSend['finalScore']= dataToSend['bmiIndicator']+dataToSend['weightChange']+dataToSend['dieteryIntakeLost']+dataToSend['illFlag']+this.table2Score;
+    dataToSend['finalScore']= (+dataToSend['bmiIndicator'])+(+dataToSend['weightChange'])+(+dataToSend['dieteryIntakeLost'])+(+dataToSend['illFlag'])+this.table2Score;
     this.commonService.apiCall('post','form/nrs',dataToSend).subscribe(data=>{
       this.iziToast.info({
         title: 'Info',

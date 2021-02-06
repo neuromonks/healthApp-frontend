@@ -18,7 +18,7 @@ export class Mnst20Component implements OnInit {
   previousMustData = [];
   dtOptions: any = {};
   bmiValue ;
-  showTableTwo = true;
+  showTableTwo = false;
   firstForm =false;
   mnst20BasicScore = 0
   table2Score = -1;
@@ -105,12 +105,15 @@ export class Mnst20Component implements OnInit {
   showTable2result = false;
   finalResult = '';
   ageOfPerson = -1;
+  previousData={'must':[],'nrs':[],'mna':[]};
   constructor(private authService:AuthService,
               private commonService:CommonService,
               private builder: FormBuilder,
               private iziToast: Ng2IzitoastService) { }
 
   ngOnInit() {
+
+
     if(!this.authService.isLoggedIn){
       this.commonService.navigateTo('/login');
     }else{
@@ -126,7 +129,7 @@ export class Mnst20Component implements OnInit {
 
       ]
     };
-
+    this.checkPreviousData();
     if(localStorage.getItem('weightData'))
     {
       this.weigthData = JSON.parse(localStorage.getItem('weightData'))
@@ -221,6 +224,72 @@ export class Mnst20Component implements OnInit {
     this.nrsForm.patchValue({
       age:age
     })
+
+  }
+
+  checkPreviousData(){
+    let today= new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+    this.commonService.loader(true);
+    this.commonService.apiCall('get','form/data?patient_id='+this.userData['id']+'&date='+date).subscribe(data=>{
+      this.commonService.loader(false);
+      if(data['success']){
+        this.previousData = data['result'];
+        if(this.previousData['must'].length<=0){
+          this.iziToast.info({
+            title: 'Info',
+            message: "Must Form Data Not Available Please fill it first",
+            position: 'topCenter'
+          });
+          this.commonService.navigateTo('/patient/mustForm');
+          return;
+        }
+        if(this.previousData['mna'].length==0){
+          this.iziToast.info({
+            title: 'Info',
+            message: "MNA Form Data Not Available Please fill it first",
+            position: 'topCenter'
+          });
+          this.commonService.navigateTo('/patient/mnaForm');
+          return;
+        }
+        if(this.previousData['nrs'].length==0){
+          this.iziToast.info({
+            title: 'Info',
+            message: "NRS Form Data Not Available Please fill it first",
+            position: 'topCenter'
+          });
+          this.commonService.navigateTo('/patient/nrsForm');
+          return;
+        }
+        this.json['bmi']['value']=this.previousData['must'][0]['bmi_score']
+        this.json['nutritionHealth']['value']=this.previousData['must'][0]['nutrient_intake']?2:0
+        this.json['nutritionStatus']['value']=this.previousData['nrs'][0]['nutritionStatus']
+        this.json['disease']['value']=this.previousData['nrs'][0]['disease']
+        this.json['mobility']['value']=this.previousData['mna'][0]['questionC']
+        this.json['modeOfFeeding']['value']=this.previousData['mna'][0]['questionN']
+        this.json['healthStatus']['value']=this.previousData['mna'][0]['questionP']
+
+        this.showTableTwo = true;
+      }else{
+        console.log(data);
+        this.iziToast.info({
+          title: 'Info',
+          message: data['message'],
+          position: 'topCenter'
+        });
+      }
+    },
+      error => {
+      this.commonService.loader(false);
+        console.log(error);
+        this.iziToast.info({
+          title: 'Info',
+          message: error['message'],
+          position: 'topCenter'
+        });
+      })
   }
 
   onSubmit() {

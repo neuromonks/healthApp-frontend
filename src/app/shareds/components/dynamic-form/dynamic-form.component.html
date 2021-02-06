@@ -21,7 +21,7 @@
               <input *ngSwitchCase="'url'" class="form-control"  type="url" [id]="prop.key" [value]="prop.value" [formControlName]="prop.key">
 
               <select [formControlName]="prop.key" *ngSwitchCase="'select'" class="form-control">
-                <option *ngFor="let option of prop.options" [value]="option.value">
+                <option *ngFor="let option of prop.options" [selected]="prop?.value==option.value"  [value]="option.value">
                   {{option.label}}
                 </option>
               </select>

@@ -13,6 +13,7 @@ export class MnaFormComponent implements OnInit {
   mnaForm: FormGroup;
   submitted = false;
   mnaBasicScore = -1;
+  showForm1 =true;
   assesMentScore = -1;
   totalScore = -1;
   startAssesment = false;
@@ -31,6 +32,7 @@ export class MnaFormComponent implements OnInit {
         { label: ' moderate decrease in food intake', value: 1 },
         {label: ' no decrease in food intake',value:2}
       ],
+      value:2,
       validation: {
       "required": true}
     },
@@ -290,16 +292,21 @@ export class MnaFormComponent implements OnInit {
 
   screeningScoreCalculation(fg) {
     this.screeningData = fg;
-    this.mnaBasicScore = 0;
+    this.mnaBasicScore = -1;
     console.log(fg)
     for(let eachAns of Object.keys(fg)){
       this.mnaBasicScore+=(+fg[eachAns])
+      fg[eachAns] = (+fg[eachAns])
     }
+    this.showForm1 = false;
     if(this.mnaBasicScore<=11){
       this.startAssesment = true;
     }else{
       let dataToSend = fg;
       dataToSend['patient_id']=this.userData['id']
+      dataToSend['screeningScore']=this.mnaBasicScore;
+      dataToSend['assessmentScore']=this.assesMentScore;
+      dataToSend['finalScore']=this.mnaBasicScore;
       this.commonService.apiCall('post', 'form/mna', dataToSend).subscribe(
         data => {
           console.log(data)
@@ -337,11 +344,13 @@ export class MnaFormComponent implements OnInit {
     for(let eachAns of Object.keys(fg)){
       this.assesMentScore+=(+fg[eachAns])
     }
+    this.totalScore=this.assesMentScore+this.mnaBasicScore;
     dataToSend['assessmentScore']=this.assesMentScore;
     dataToSend['screeningScore']=this.mnaBasicScore;
+    dataToSend['finalScore']=this.totalScore;
     dataToSend['patient_id']=this.userData['id'];
 
-    this.totalScore=this.assesMentScore+this.mnaBasicScore;
+    // this.totalScore=this.assesMentScore+this.mnaBasicScore;
     this.commonService.apiCall('post', 'form/mna', dataToSend).subscribe(
       data => {
         console.log(data)

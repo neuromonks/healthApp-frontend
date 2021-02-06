@@ -1,13 +1,13 @@
 <section class="section">
   <div class="section-header">
-    <h1>NRS FORM</h1>
+    <h1>MNST 20 FORM</h1>
   </div>
 </section>
 <section class="section">
   <div class="row">
     <div class="card mt-4">
       <div class="card-header">
-        <h4>Popular Browser</h4>
+        <h4>Weight Change Percentage</h4>
       </div>
       <div class="card-body">
         <div class="row">
@@ -17,6 +17,38 @@
             <div class="text-small text-muted"><span [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'text-primary':'text-danger'" class=""><i class="fa" [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'fa-caret-up':'fa-caret-down'"></i></span> {{weigthData[eachMonth]['data']['weightChangeP'] | number : '1.2-2'}}%</div>
           </div>
 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="row mt-4">
+    <div class="col-12 col-lg-8 offset-lg-2">
+      <div class="wizard-steps">
+        <div class="wizard-step " [ngClass]="previousData['must'].length>0?'wizard-step-active':'wizard-step-danger'">
+          <div class="wizard-step-icon">
+            <i class="fa fa-file" ></i>
+          </div>
+          <div class="wizard-step-label">
+            MUST Form {{previousData['must'].length>0?'Completed':'Incomplete'}}
+          </div>
+        </div>
+        <div class="wizard-step " [ngClass]="previousData['nrs'].length>0?'wizard-step-active':'wizard-step-danger'">
+          <div class="wizard-step-icon">
+            <i class="fa fa-file"></i>
+          </div>
+          <div class="wizard-step-label">
+            NRS Form {{previousData['nrs'].length>0?'Completed':'Incomplete'}}
+          </div>
+        </div>
+        <div class="wizard-step " [ngClass]="previousData['mna'].length>0?'wizard-step-active':'wizard-step-danger'">
+          <div class="wizard-step-icon">
+            <i class="fa fa-file"></i>
+          </div>
+          <div class="wizard-step-label">
+            MNA Form {{previousData['mna'].length>0?'Completed':'Incomplete'}}
+          </div>
         </div>
       </div>
     </div>
@@ -92,7 +124,7 @@
     </div>
   </div>
 </section>
-<section class="section" *ngIf="!showTable2result">
+<section class="section" *ngIf="!showTable2result && showTableTwo">
   <div class="row">
     <app-dynamic-form [formJson]="json" [debug]="false" (output)="secondFormCalculation($event)"></app-dynamic-form>
   </div>
@@ -106,8 +138,47 @@
 </section>
 <section class="section" *ngIf="showTable2result">
   <div class="row">
-    <div class="col-md-12">
-      <h3>Result : {{finalResult}}</h3>
+    <div class="col-md-12 text-center">
+      <h1>Comparative Result</h1>
+    </div>
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item"><b>MUST Form Result</b></li>
+        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=0 && previousData['must'][0]['finalScore']<1">Your at Low Risk</li>
+        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=1 && previousData['must'][0]['finalScore']<2">Your at Moderate Risk</li>
+        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=2 ">Your at High Risk</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item"><b>NRS Form Result</b></li>
+        <li class="list-group-item">{{previousData['nrs'][0]['finalResult']}}</li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item"><b>MNA Form Result</b></li>
+        <ng-container *ngIf="previousData['mna'][0]['assessmentScore']==-1">
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=14 && previousData['mna'][0]['screeningScore']>=12">Your MNA Indicator : Normal nutritional status</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=11 && previousData['mna'][0]['screeningScore']>=8">Your MNA Indicator : At risk of malnutrition</li>
+          <li  class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=7 && previousData['mna'][0]['screeningScore']>=0">Your MNA Indicator : Malnourished</li>
+        </ng-container>
+        <ng-container *ngIf="previousData['mna'][0]['assessmentScore']>=0">
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<=30 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=24">Your MNA Indicator : Normal nutritional status</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<=23.5 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=17">Your MNA Indicator : At risk of malnutrition</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<17 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=0">Your MNA Indicator : Malnourished</li>
+        </ng-container>
+
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <ul class="list-group">
+        <li class="list-group-item"><b>MNST-20 Form Result</b></li>
+        <li class="list-group-item" > {{finalResult}}</li>
+
+
+
+      </ul>
     </div>
   </div>
 </section>

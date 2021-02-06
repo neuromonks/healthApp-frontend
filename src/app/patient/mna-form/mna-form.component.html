@@ -7,7 +7,7 @@
   <div class="row">
     <div class="card mt-4">
       <div class="card-header">
-        <h4>Popular Browser</h4>
+        <h4>Weight Change Percentage</h4>
       </div>
       <div class="card-body">
         <div class="row">
@@ -56,10 +56,21 @@
 <!--    </div>-->
 <!--  </div>-->
 </section>
-<section class="section" *ngIf="!startAssesment">
+<section class="section" *ngIf="showForm1">
   <div class="row">
     <app-dynamic-form [formJson]="json" [debug]="false" (output)="screeningScoreCalculation($event)"></app-dynamic-form>
   </div>
+</section>
+<section class="section" *ngIf="mnaBasicScore>0 && !startAssesment">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Your Screening Score Is {{mnaBasicScore}}</h3>
+      <h3 *ngIf="mnaBasicScore<=14 && mnaBasicScore>=12">Your MNA Indicator : Normal nutritional status</h3>
+      <h3 *ngIf="mnaBasicScore<=11 && mnaBasicScore>=8">Your MNA Indicator : At risk of malnutrition</h3>
+      <h3 *ngIf="mnaBasicScore<=7 && mnaBasicScore>=0">Your MNA Indicator : Malnourished</h3>
+    </div>
+  </div>
+
 </section>
 <section class="section" *ngIf="startAssesment && assesMentScore==-1">
   <div class="row">
