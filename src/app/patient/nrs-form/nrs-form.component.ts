@@ -11,6 +11,8 @@ import {Ng2IzitoastService} from "ng2-izitoast";
 export class NrsFormComponent implements OnInit {
   userData:any;
   nrsForm: FormGroup;
+  imparedForm: FormGroup;
+  diseaseForm: FormGroup;
   submitted = false;
   months = '';
   weigthData ;
@@ -25,8 +27,12 @@ export class NrsFormComponent implements OnInit {
   };
   showTable1result = false;
   showTable2result = false;
+  resultClass='text-info';
   finalResult = '';
   ageOfPerson = -1;
+  imparedFormDisplay =false;
+  bmiData = null;
+  diseaseList=[]
   constructor(private authService:AuthService,
               private commonService:CommonService,
               private builder: FormBuilder,
@@ -48,7 +54,10 @@ export class NrsFormComponent implements OnInit {
 
       ]
     };
-
+    if(localStorage.getItem('BMIData'))
+    {
+      this.bmiData = JSON.parse(localStorage.getItem('BMIData'))
+    }
     if(localStorage.getItem('weightData'))
     {
       this.weigthData = JSON.parse(localStorage.getItem('weightData'))
@@ -103,6 +112,16 @@ export class NrsFormComponent implements OnInit {
       dieteryIntakeLost : ['', [Validators.required,]],
       illFlag:['', [Validators.required,]],
 
+    });
+
+    this.imparedForm = this.builder.group({
+      nutritionStatus: ['', [Validators.required]]
+
+    });
+    this.diseaseForm = this.builder.group({
+      nutritionStatus: ['', [Validators.required]],
+      disease : ['', [Validators.required]],
+      diseaseName : ['', [Validators.required]],
     });
 
     if(this.bmiValue<20.5){
@@ -160,6 +179,7 @@ export class NrsFormComponent implements OnInit {
     let dataToSend = {};
     if(this.nrsForm.value.bmiIndicator == "1" || this.nrsForm.value.weightChange == "1" || this.nrsForm.value.dieteryIntakeLost == "1" || this.nrsForm.value.illFlag == "1"){
       if(this.nrsForm.value.illFlag == "1"){
+        this.imparedFormDisplay = false;
         this.json={
           nutritionStatus: {
             label: 'Impaired nutritional status',
@@ -186,6 +206,7 @@ export class NrsFormComponent implements OnInit {
               "required": true}
           },}
       }else{
+        this.imparedFormDisplay = true;
         this.json={
           nutritionStatus: {
             label: 'Impaired nutritional status',
@@ -203,6 +224,7 @@ export class NrsFormComponent implements OnInit {
       }
       this.showTableTwo = true;
     }else{
+
       this.finalResult = 'The patient is re-screened at weekly intervals';
       this.showTable1result = true;
       dataToSend['bmiIndicator']=(+this.nrsForm.value.bmiIndicator)
@@ -238,13 +260,36 @@ export class NrsFormComponent implements OnInit {
     return Object.keys(json);
   }
 
-  secondFormCalculation(fg){
+  secondFormCalculation(){
+    let fg;
+    if(this.imparedFormDisplay){
+      if(this.imparedForm.invalid) {
+        this.iziToast.warning({
+          title: 'Error!',
+          message: 'Please fill all required fields',
+          position: 'topCenter'
+        });
+        return;
+      }
+      fg = this.imparedForm.value
+
+    }else{
+      if(this.diseaseForm.invalid) {
+        this.iziToast.warning({
+          title: 'Error!',
+          message: 'Please fill all required fields',
+          position: 'topCenter'
+        });
+        return;
+      }
+      fg = this.diseaseForm.value
+    }
     let dataToSend = {}
     if(fg.hasOwnProperty('disease') && fg.hasOwnProperty('nutritionStatus')){
       this.table2Score = (+fg['disease'])+(+fg['nutritionStatus'])
       dataToSend['disease']=(+fg['disease'])
       dataToSend['nutritionStatus']=(+fg['nutritionStatus'])
-
+      dataToSend['disease_name']=fg['diseaseName']
     }else if(fg.hasOwnProperty('nutritionStatus')){
       this.table2Score = (+fg['nutritionStatus'])
       dataToSend['nutritionStatus']=(+fg['nutritionStatus'])
@@ -256,6 +301,7 @@ export class NrsFormComponent implements OnInit {
     if(this.table2Score>=3){
       this.finalResult = 'The patient is nutritionally at-risk and a nutritional care plan is initiated ';
       this.showTable2result=true;
+      this.resultClass = 'text-danger'
     }else{
       this.finalResult = 'Weekly rescreening of the patient';
       this.showTable2result=true;
@@ -347,6 +393,20 @@ export class NrsFormComponent implements OnInit {
     }
 
     return ans;
+  }
+
+  diseaseChange(data){
+    let options = [
+      {label: 'None',value:0},
+      { label: 'Hip fracture*, Chronic patients, cirrhosis*, COPD*, Chronic hemodialysis, diabetes, oncology', value: 1 },
+      { label: 'Major abdominal surgery*, Stroke*, Severe pneumonia, hematologic malignancy', value: 2 },
+      {label: 'Head injury*, Bone marrow transplantation*, Intensive care patients (APACHE410).',value:3},
+
+    ]
+
+    data=parseInt(data)
+    this.diseaseList = options[data]['label'].split(',')
+    console.log(this.diseaseList)
   }
 
 }

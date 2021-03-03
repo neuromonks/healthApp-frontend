@@ -127,12 +127,26 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                  Register
-                </button>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="checkbox">
+                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a [routerLink]="['/','patientConsent']">Patient Consent</a> and <a [routerLink]="['/','doctorConsent']">Doctor Consent</a> terms.</span></label>
+                  </div>
+
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+
+                    <button [disabled]="!form.value['agreement_check']" type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                      Register
+                    </button>
+
+                  </div>
+                </div>
+
               </div>
             </form>
+            <hr>
             <div class="text-center mt-4 mb-3">
               <a [routerLink] = "['/' , 'login' ]">Login</a>
             </div>

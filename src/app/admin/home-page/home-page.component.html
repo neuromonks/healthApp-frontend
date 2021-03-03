@@ -3,7 +3,267 @@
     <h1>Admin Dashboard</h1>
   </div>
 </section>
-<div class="row">
+<section class="section" *ngIf="dashboardData">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+         <h3> Male Female Ratio</h3>
+        </div>
+        <div class="card-body">
+          <google-chart [data]="pieChart"></google-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>Comorbity Chart</h3>
+        </div>
+        <div class="card-body">
+           <google-chart [data]="comorbityChart"></google-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>MUST FORM ACCURACY</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-hover table-condensed">
+              <thead>
+                  <tr>
+                      <th>Algorithm</th>
+                      <th>60-40</th>
+                      <th>70-30</th>
+                      <th>75-25</th>
+                      <th>80-20</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Linear SVM</td>
+                      <td>100.00%</td>
+                      <td>98.77%</td>
+                      <td>98.53%</td>
+                      <td>100.00%</td>
+                  </tr>
+                  <tr>
+                      <td>Logistics Regression</td>
+                      <td>96.30%</td>
+                      <td>97.53%</td>
+                      <td>97.06%</td>
+                      <td>98.15%</td>
+                  </tr>
+                  <tr>
+                      <td>Decision Tree</td>
+                      <td>94.44%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                  </tr>
+                  <tr>
+                      <td>Adaboost</td>
+                      <td>99.07%</td>
+                      <td>98.77%</td>
+                      <td>98.53%</td>
+                      <td>98.15%</td>
+                  </tr>
+                  <tr>
+                      <td>Random Forest</td>
+                      <td>96.30%</td>
+                      <td>100.00%</td>
+                      <td>94.12%</td>
+                      <td>98.15%</td>
+                  </tr>
+              </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+           <h3> MNA FORM ACCURACY</h3>
+        </div>
+        <div class="card-body">
+           <table class="table table-bordered table-hover table-condensed ">
+                <thead>
+                    <tr>
+                         <th>Algorithm</th>
+                      <th>60-40</th>
+                      <th>70-30</th>
+                      <th>75-25</th>
+                      <th>80-20</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Linear SVM</td>
+                        <td>86.11%</td>
+                        <td>88.89%</td>
+                        <td>88.24%</td>
+                        <td>90.74%</td>
+                    </tr>
+                    <tr>
+                        <td>Logistics Regression</td>
+                        <td>86.11%</td>
+                        <td>88.89%</td>
+                        <td>88.24%</td>
+                        <td>90.74%</td>
+                    </tr>
+                    <tr>
+                        <td>Decision Tree</td>
+                        <td>91.67%</td>
+                        <td>90.12%</td>
+                        <td>89.71%</td>
+                        <td>88.89%</td>
+                    </tr>
+                    <tr>
+                        <td>Adaboost</td>
+                        <td>90.74%</td>
+                        <td>95.06%</td>
+                        <td>92.65%</td>
+                        <td>94.44%</td>
+                    </tr>
+                    <tr>
+                        <td>Random Forest</td>
+                        <td>91.67%</td>
+                        <td>91.36%</td>
+                        <td>91.18%</td>
+                        <td>94.44%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>NRS FORM ACCURACY</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-hover table-condensed">
+              <thead>
+                  <tr>
+                      <th>Algorithm</th>
+                      <th>60-40</th>
+                      <th>70-30</th>
+                      <th>75-25</th>
+                      <th>80-20</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Linear SVM</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                  </tr>
+                  <tr>
+                      <td>Logistics Regression</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                  </tr>
+                  <tr>
+                      <td>Decision Tree</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                  </tr>
+                  <tr>
+                      <td>Adaboost</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                  </tr>
+                  <tr>
+                      <td>Random Forest</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                      <td>100.00%</td>
+                  </tr>
+              </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>MNST20 FORM ACCURACY</h3>
+        </div>
+        <div class="card-body">
+           <table class="table table-bordered table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th title="Field #1">Algorithm</th>
+                        <th title="Field #2">60-40</th>
+                        <th title="Field #3">70-30</th>
+                        <th title="Field #4">75-25</th>
+                        <th title="Field #5">80-20</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Linear SVM</td>
+                        <td>91.95%</td>
+                        <td>93.85%</td>
+                        <td>91.95%</td>
+                        <td>93.18%</td>
+                    </tr>
+                    <tr>
+                        <td>Logistics Regression</td>
+                        <td>89.66%</td>
+                        <td>92.31%</td>
+                        <td>89.66%</td>
+                        <td>90.91%</td>
+                    </tr>
+                    <tr>
+                        <td>Decision Tree</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                    </tr>
+                    <tr>
+                        <td>Adaboost</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                    </tr>
+                    <tr>
+                        <td>Random Forest</td>
+                        <td>100.00%</td>
+                        <td>98.46%</td>
+                        <td>100.00%</td>
+                        <td>100.00%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="row" *ngIf="isAdmin">
   <div class="card col-md-12">
     <div class="card-header"><h3>All New Users</h3></div>
     <div class="card-body">

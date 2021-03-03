@@ -1,0 +1,67 @@
+<section class="section">
+  <div class="section-header">
+    <h1>Predictions</h1>
+  </div>
+</section>
+<section class="section">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>MNA Form Prediction</h3>
+        </div>
+        <div class="card-body">
+          <div class="text-center" *ngIf="mnaResult!=null">
+            <h4>Result</h4>
+            <h4>{{mnaResult[0]['prediction']}}</h4>
+          </div>
+          <button class="btn btn-primary" (click)="mnaPredict()">Predict</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>NRS Form Prediction</h3>
+        </div>
+        <div class="card-body">
+          <div class="text-center" *ngIf="nrsResult!=null">
+            <h4>Result</h4>
+            <h4>{{nrsResult[0]['prediction']}}</h4>
+          </div>
+          <button class="btn btn-primary" (click)="nrsPredict()">Predict</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>MUST Form Prediction</h3>
+        </div>
+        <div class="card-body">
+          <div class="text-center" *ngIf="mustResult!=null">
+            <h4>Result</h4>
+            <h4>{{mustResult[0]['prediction']}}</h4>
+          </div>
+          <button class="btn btn-primary" (click)="mustPredict()">Predict</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>MNST-20 Predictions</h3>
+        </div>
+        <div class="card-body">
+          <div class="text-center" *ngIf="mnst20Result!=null">
+            <h4>Result</h4>
+            <h4>{{mnst20Result[0]['prediction']}}</h4>
+          </div>
+          <button class="btn btn-primary" (click)="mnst20Predict()">Predict</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

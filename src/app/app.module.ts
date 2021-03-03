@@ -18,13 +18,22 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { RegisterComponent } from './components/register/register.component';
 import { InactiveComponent } from './components/inactive/inactive.component';
+import { PatientConsentComponent } from './components/patient-consent/patient-consent.component';
+import { AdminConsentComponent } from './components/admin-consent/admin-consent.component';
+import { DoctorConsentComponent } from './components/doctor-consent/doctor-consent.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    InactiveComponent
+    InactiveComponent,
+    PatientConsentComponent,
+    AdminConsentComponent,
+    DoctorConsentComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +46,8 @@ import { InactiveComponent } from './components/inactive/inactive.component';
     AngularMyDatePickerModule,
     ExportAsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    Ng2GoogleChartsModule,
   ],
   providers: [
     {

@@ -106,6 +106,7 @@ export class Mnst20Component implements OnInit {
   finalResult = '';
   ageOfPerson = -1;
   previousData={'must':[],'nrs':[],'mna':[]};
+  bmiData = null;
   constructor(private authService:AuthService,
               private commonService:CommonService,
               private builder: FormBuilder,
@@ -130,6 +131,10 @@ export class Mnst20Component implements OnInit {
       ]
     };
     this.checkPreviousData();
+    if(localStorage.getItem('BMIData'))
+    {
+      this.bmiData = JSON.parse(localStorage.getItem('BMIData'))
+    }
     if(localStorage.getItem('weightData'))
     {
       this.weigthData = JSON.parse(localStorage.getItem('weightData'))
@@ -237,6 +242,7 @@ export class Mnst20Component implements OnInit {
       if(data['success']){
         this.previousData = data['result'];
         if(this.previousData['must'].length<=0){
+          console.log('shubham')
           this.iziToast.info({
             title: 'Info',
             message: "Must Form Data Not Available Please fill it first",

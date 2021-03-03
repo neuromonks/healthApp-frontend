@@ -1195,7 +1195,7 @@ tr:first-child > td > .fc-day-grid-event {
   background-color: #ffa426;
 }
 .toast.toast-success {
-  background-color: #63ed7a;
+  background-color: #6777ef;
 }
 .toast.toast-info {
   background-color: #fff;
@@ -1786,7 +1786,7 @@ tr:first-child > td > .fc-day-grid-event {
   color: #fff;
 }
 .pricing.pricing-highlight .pricing-cta a:hover {
-  background-color: #0da326 !important;
+  background-color: #6777ef !important;
 }
 .pricing .pricing-padding {
   padding: 40px;
@@ -1823,7 +1823,7 @@ tr:first-child > td > .fc-day-grid-event {
   line-height: 20px;
   border-radius: 50%;
   text-align: center;
-  background-color: #63ed7a;
+  background-color: #6777ef;
   color: #fff;
   margin-right: 10px;
 }
@@ -1964,7 +1964,7 @@ tr:first-child > td > .fc-day-grid-event {
   width: 0.5em;
 }
 .avatar .avatar-presence.online {
-  background: #63ed7a;
+  background: #6777ef;
 }
 .avatar .avatar-presence.busy {
   background: #fc544b;
@@ -2028,11 +2028,11 @@ tr:first-child > td > .fc-day-grid-event {
   color: #fff;
 }
 .wizard-steps .wizard-step.wizard-step-success {
-  background-color: #63ed7a;
+  background-color: #6777ef;
   color: #fff;
 }
 .wizard-steps .wizard-step.wizard-step-success:before {
-  background-color: #63ed7a;
+  background-color: #6777ef;
   color: #fff;
 }
 .wizard-steps .wizard-step.wizard-step-danger {

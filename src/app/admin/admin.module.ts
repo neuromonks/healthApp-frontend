@@ -13,6 +13,7 @@ import { PatientsComponent } from './patients/patients.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HospitalComponent } from './hospital/hospital.component';
 import { PatientDetailsComponent } from './patient-details/patient-details.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   declarations: [AdminComponent, HomePageComponent, DoctorsComponent, PatientsComponent, HospitalComponent, PatientDetailsComponent, ],
@@ -24,7 +25,8 @@ import { PatientDetailsComponent } from './patient-details/patient-details.compo
     FormsModule,
     AngularMyDatePickerModule,
     ExportAsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    Ng2GoogleChartsModule
   ]
 })
 export class AdminModule { }

@@ -21,6 +21,7 @@ export class MnaFormComponent implements OnInit {
   previousMustData = [];
   weigthData;
   screeningData;
+  bmiData = null;
   json: any = {
     questionA: {
       label: 'A. Has food intake declined over the past 3 months due to loss\n' +
@@ -135,12 +136,9 @@ export class MnaFormComponent implements OnInit {
       validation: {
         "required": true}
     },
-    questionK: {
-      label: 'K. Selected consumption markers for protein intake',
-      type: 'na',
-    },
+
     questionK1: {
-      label: 'K-1. Selected consumption markers for protein intake',
+      label: 'K. Selected consumption markers for protein intake \n K-1. Selected consumption markers for protein intake',
       type: 'select',
       options: [
         { label: 'no', value: 0 },
@@ -243,6 +241,10 @@ export class MnaFormComponent implements OnInit {
       if(this.userData.user_type !== 'patient'){
         this.commonService.navigateTo('/login');
       }
+    }
+    if(localStorage.getItem('BMIData'))
+    {
+      this.bmiData = JSON.parse(localStorage.getItem('BMIData'))
     }
     if(localStorage.getItem('weightData'))
     {

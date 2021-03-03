@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   title = 'angular';
   loading = false;
   ngxLoadingAnimationTypes1 = ngxLoadingAnimationTypes;
-  primaryColour ='#0da326';
+  primaryColour ='#6777ef';
 
   constructor(
   	private commonService : CommonService

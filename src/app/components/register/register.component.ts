@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Ng2IzitoastService} from "ng2-izitoast";
 import {Router} from "@angular/router";
 import {AuthService, CommonService} from "../../services";
-import {IAngularMyDpOptions, IMyDateModel} from 'angular-mydatepicker';
+import {IAngularMyDpOptions, IMyDateModel,IMyDate } from 'angular-mydatepicker';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +13,11 @@ import {IAngularMyDpOptions, IMyDateModel} from 'angular-mydatepicker';
 export class RegisterComponent implements OnInit {
   form: FormGroup;
   submitted = false;
+  todayMyDate:IMyDate  = {year:new Date().getFullYear(),month:new Date().getMonth()+1,day:new Date().getDate()}
   myOptions: IAngularMyDpOptions = {
     dateRange: false,
-    dateFormat: 'dd-mm-yyyy'
+    dateFormat: 'dd-mm-yyyy',
+    disableSince : this.todayMyDate
   };
   allHospital=[]
 
@@ -94,6 +96,8 @@ export class RegisterComponent implements OnInit {
       });
       return;
     }
+
+
 
     let objectToSend = JSON.parse(JSON.stringify(this.form.value));
     objectToSend['name']=objectToSend['firstName']+' '+objectToSend['lastName'];

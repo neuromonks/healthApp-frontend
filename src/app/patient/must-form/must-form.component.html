@@ -81,17 +81,18 @@
   <ng-container *ngIf="totalNutritionScore>=0">
     <div class="row">
       <div class="col-md-12">
-        <h3>Result</h3>
+        <h3 class="text-dark">Result</h3>
       </div>
     </div>
+    <hr>
     <div class="row">
       <div class="col-md-12">
-        <h4>Your Score is {{totalNutritionScore}}</h4>
-        <h4 *ngIf="totalNutritionScore>=0 && totalNutritionScore<1">Your at Low Risk</h4>
-        <h4 *ngIf="totalNutritionScore>=1 && totalNutritionScore<2">Your at Moderate Risk</h4>
-        <h4 *ngIf="totalNutritionScore>=2 ">Your at High Risk</h4>
-        <div>
-          <h4>Suggestion</h4>
+        <h4 class="text-dark">Your Score is {{totalNutritionScore}}</h4>
+        <h4 *ngIf="totalNutritionScore>=0 && totalNutritionScore<1" class="text-success">Your at Low Risk</h4>
+        <h4 *ngIf="totalNutritionScore>=1 && totalNutritionScore<2" class="text-info">Your at Moderate Risk</h4>
+        <h4 *ngIf="totalNutritionScore>=2 " class="text-danger">Your at High Risk</h4>
+        <div class="border-primary border p-3">
+          <h4 class="text-dark">Suggestion</h4>
           <pre *ngIf="totalNutritionScore>=0 && totalNutritionScore<1">
           Repeat screening
           Hospital  – weekly
@@ -121,10 +122,11 @@
   </ng-container>
 
 </section>
+<hr>
 <div class="row">
   <div class="card col-md-12">
     <div class="card-header d-flex justify-content-between">
-      <h3>Previous Data</h3>
+      <h3 class="text-dark">Previous Data</h3>
 
     </div>
     <div class="card-body">

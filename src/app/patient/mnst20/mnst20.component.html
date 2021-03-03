@@ -16,6 +16,12 @@
             <div class="mt-2 font-weight-bold">{{eachMonth}}</div>
             <div class="text-small text-muted"><span [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'text-primary':'text-danger'" class=""><i class="fa" [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'fa-caret-up':'fa-caret-down'"></i></span> {{weigthData[eachMonth]['data']['weightChangeP'] | number : '1.2-2'}}%</div>
           </div>
+          <div class="col mb-4 mb-lg-0 text-center" *ngIf="bmiData!=null">
+
+            <div class="mt-2 font-weight-bold">Current BMI Value</div>
+            <div class="mt-2 font-weight-bold">{{bmiData | number : '1.2-2'}}</div>
+
+          </div>
 
         </div>
       </div>
@@ -144,9 +150,9 @@
     <div class="col-md-3">
       <ul class="list-group">
         <li class="list-group-item"><b>MUST Form Result</b></li>
-        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=0 && previousData['must'][0]['finalScore']<1">Your at Low Risk</li>
-        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=1 && previousData['must'][0]['finalScore']<2">Your at Moderate Risk</li>
-        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=2 ">Your at High Risk</li>
+        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=0 && previousData['must'][0]['finalScore']<1"> Low Risk</li>
+        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=1 && previousData['must'][0]['finalScore']<2">Moderate Risk</li>
+        <li class="list-group-item" *ngIf="previousData['must'][0]['finalScore']>=2 "> High Risk</li>
       </ul>
     </div>
     <div class="col-md-3">
@@ -159,14 +165,14 @@
       <ul class="list-group">
         <li class="list-group-item"><b>MNA Form Result</b></li>
         <ng-container *ngIf="previousData['mna'][0]['assessmentScore']==-1">
-          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=14 && previousData['mna'][0]['screeningScore']>=12">Your MNA Indicator : Normal nutritional status</li>
-          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=11 && previousData['mna'][0]['screeningScore']>=8">Your MNA Indicator : At risk of malnutrition</li>
-          <li  class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=7 && previousData['mna'][0]['screeningScore']>=0">Your MNA Indicator : Malnourished</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=14 && previousData['mna'][0]['screeningScore']>=12">Normal nutritional status</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=11 && previousData['mna'][0]['screeningScore']>=8">At risk of malnutrition</li>
+          <li  class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']<=7 && previousData['mna'][0]['screeningScore']>=0">Malnourished</li>
         </ng-container>
         <ng-container *ngIf="previousData['mna'][0]['assessmentScore']>=0">
-          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<=30 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=24">Your MNA Indicator : Normal nutritional status</li>
-          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<=23.5 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=17">Your MNA Indicator : At risk of malnutrition</li>
-          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<17 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=0">Your MNA Indicator : Malnourished</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<=30 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=24">Normal nutritional status</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<=23.5 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=17">At risk of malnutrition</li>
+          <li class="list-group-item" *ngIf="previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']<17 && previousData['mna'][0]['screeningScore']+previousData['mna'][0]['assessmentScore']>=0">Malnourished</li>
         </ng-container>
 
       </ul>

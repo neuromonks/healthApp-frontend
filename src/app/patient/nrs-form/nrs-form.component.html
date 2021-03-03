@@ -16,6 +16,12 @@
             <div class="mt-2 font-weight-bold">{{eachMonth}}</div>
             <div class="text-small text-muted"><span [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'text-primary':'text-danger'" class=""><i class="fa" [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'fa-caret-up':'fa-caret-down'"></i></span> {{weigthData[eachMonth]['data']['weightChangeP'] | number : '1.2-2'}}%</div>
           </div>
+          <div class="col mb-4 mb-lg-0 text-center" *ngIf="bmiData!=null">
+
+            <div class="mt-2 font-weight-bold">Current BMI Value</div>
+            <div class="mt-2 font-weight-bold">{{bmiData['bmi'] | number : '1.2-2'}}</div>
+
+          </div>
 
         </div>
       </div>
@@ -94,23 +100,106 @@
 </section>
 <section class="section" *ngIf="showTableTwo">
   <div class="row">
-    <app-dynamic-form [formJson]="json" [debug]="false" (output)="secondFormCalculation($event)"></app-dynamic-form>
+    <div class="col-md-12" *ngIf="imparedFormDisplay">
+      <form (submit)="secondFormCalculation()" [formGroup] ="imparedForm" class="needs-validation" novalidate="">
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="nutritionStatus">Impaired nutritional status</label>
+            <select id="nutritionStatus" formControlName = "nutritionStatus" type="text" class="form-control "  name="nutritionStatus" required >
+              <option  value="0" > Normal nutritional status </option>
+              <option  value="1" > Wt loss 45% in 3 mths or Food intake below 50–75% of normal requirement in preceding week </option>
+              <option  value="2" > Wt loss 45% in 2 mths or BMI 18.5 – 20.5 + impaired general condition or Food intake 25–60% of normal requirement in preceding week </option>
+              <option  value="3" > Wt loss 45% in 1 mth (415% in 3 mths) or BMI o18.5 + impaired general condition or Food intake 0-25% of normal requirement in preceding week in preceding week </option>
+
+            </select>
+            <div *ngIf="submitted && imparedForm.controls.nutritionStatus.errors" class="invalid-feedback">
+              <div *ngIf="imparedForm.controls.nutritionStatus.errors.required">Please fill Field</div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-12" *ngIf="!imparedFormDisplay">
+      <form (submit)="secondFormCalculation()" [formGroup] ="diseaseForm" class="needs-validation" novalidate="">
+        <div class="row">
+
+          <div class="form-group col-md-6">
+            <label for="nutritionStatus1">Impaired nutritional status</label>
+            <select id="nutritionStatus1" formControlName = "nutritionStatus" type="text" class="form-control "  name="nutritionStatus" required >
+              <option  value="0" > Normal nutritional status </option>
+              <option  value="1" > Wt loss 45% in 3 mths or Food intake below 50–75% of normal requirement in preceding week </option>
+              <option  value="2" > Wt loss 45% in 2 mths or BMI 18.5 – 20.5 + impaired general condition or Food intake 25–60% of normal requirement in preceding week </option>
+              <option  value="3" > Wt loss 45% in 1 mth (415% in 3 mths) or BMI o18.5 + impaired general condition or Food intake 0-25% of normal requirement in preceding week in preceding week </option>
+
+            </select>
+            <div *ngIf="submitted && diseaseForm.controls.nutritionStatus.errors" class="invalid-feedback">
+              <div *ngIf="diseaseForm.controls.nutritionStatus.errors.required">Please fill Field</div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="disease">Severity of disease (E increase in requirements)</label>
+            <select id="disease" formControlName = "disease" type="text" class="form-control " (change)="diseaseChange($event.target.value)" name="disease" required >
+
+              <option  value="1" > Hip fracture* Chronic patients, in particular with acute complications: cirrhosis*, COPD*. Chronic hemodialysis, diabetes, oncology </option>
+              <option  value="2" > Major abdominal surgery* Stroke* Severe pneumonia, hematologic malignancy </option>
+              <option  value="3" > Head injury* Bone marrow transplantation* Intensive care patients (APACHE410). </option>
+              <option  value="0" > Normal nutritional requirements </option>
+
+            </select>
+            <div *ngIf="submitted && diseaseForm.controls.disease.errors" class="invalid-feedback">
+              <div *ngIf="diseaseForm.controls.disease.errors.required">Please fill Field</div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="diseaseList.length>0">
+          <div class="form-group col-md-6">
+            <label for="diseaseName">	Select Disease</label>
+            <select id="diseaseName" formControlName = "diseaseName" type="text" class="form-control "  name="diseaseName" required >
+              <option *ngFor="let eachDisease of diseaseList"  value="{{eachDisease}}" >{{eachDisease |titlecase}}</option>
+
+            </select>
+            <div *ngIf="submitted && diseaseForm.controls.diseaseName.errors" class="invalid-feedback">
+              <div *ngIf="diseaseForm.controls.diseaseName.errors.required">Please fill Field</div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
   </div>
 </section>
 <section class="section" *ngIf="showTable1result">
   <div class="row">
     <div class="col-md-12">
-      <h3>{{finalResult}}</h3>
+      <h3 class="text-dark">{{finalResult}}</h3>
     </div>
   </div>
 </section>
 <section class="section" *ngIf="showTable2result">
   <div class="row">
     <div class="col-md-12">
-      <h3>{{finalResult}}</h3>
+      <h3 class="{{resultClass}}">{{finalResult}}</h3>
     </div>
   </div>
 </section>
+<hr>
 <div class="row">
   <div class="card col-md-12">
     <div class="card-header d-flex justify-content-between">

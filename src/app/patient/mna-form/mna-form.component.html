@@ -16,6 +16,12 @@
             <div class="mt-2 font-weight-bold">{{eachMonth}}</div>
             <div class="text-small text-muted"><span [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'text-primary':'text-danger'" class=""><i class="fa" [ngClass]="weigthData[eachMonth]['data']['weightChangeP']>=0?'fa-caret-up':'fa-caret-down'"></i></span> {{weigthData[eachMonth]['data']['weightChangeP'] | number : '1.2-2'}}%</div>
           </div>
+          <div class="col mb-4 mb-lg-0 text-center" *ngIf="bmiData!=null">
+
+            <div class="mt-2 font-weight-bold">Current BMI Value</div>
+            <div class="mt-2 font-weight-bold">{{bmiData['bmi'] | number : '1.2-2'}}</div>
+
+          </div>
 
         </div>
       </div>
@@ -63,22 +69,26 @@
 </section>
 <section class="section" *ngIf="mnaBasicScore>0 && !startAssesment">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 text-dark">
       <h3>Your Screening Score Is {{mnaBasicScore}}</h3>
-      <h3 *ngIf="mnaBasicScore<=14 && mnaBasicScore>=12">Your MNA Indicator : Normal nutritional status</h3>
-      <h3 *ngIf="mnaBasicScore<=11 && mnaBasicScore>=8">Your MNA Indicator : At risk of malnutrition</h3>
-      <h3 *ngIf="mnaBasicScore<=7 && mnaBasicScore>=0">Your MNA Indicator : Malnourished</h3>
+      <hr>
+      <h3 *ngIf="mnaBasicScore<=14 && mnaBasicScore>=12">Your MNA Indicator :<span class="text-success"> Normal nutritional status</span></h3>
+      <h3 *ngIf="mnaBasicScore<=11 && mnaBasicScore>=8">Your MNA Indicator :<span class="text-info"> At risk of malnutrition</span></h3>
+      <h3 *ngIf="mnaBasicScore<=7 && mnaBasicScore>=0">Your MNA Indicator :<span class="text-danger"> Malnourished</span></h3>
     </div>
   </div>
 
 </section>
+
 <section class="section" *ngIf="startAssesment && assesMentScore==-1">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 text-dark">
       <h3>Your Screening Score Is {{mnaBasicScore}}</h3>
-      <h3 *ngIf="mnaBasicScore<=14 && mnaBasicScore>=12">Your MNA Indicator : Normal nutritional status</h3>
-      <h3 *ngIf="mnaBasicScore<=11 && mnaBasicScore>=8">Your MNA Indicator : At risk of malnutrition</h3>
-      <h3 *ngIf="mnaBasicScore<=7 && mnaBasicScore>=0">Your MNA Indicator : Malnourished</h3>
+      <hr>
+      <h3 *ngIf="mnaBasicScore<=14 && mnaBasicScore>=12">Your MNA Indicator :<span class="text-success"> Normal nutritional status</span></h3>
+      <h3 *ngIf="mnaBasicScore<=11 && mnaBasicScore>=8">Your MNA Indicator :<span class="text-info"> At risk of malnutrition</span></h3>
+      <h3 *ngIf="mnaBasicScore<=7 && mnaBasicScore>=0">Your MNA Indicator :<span class="text-danger"> Malnourished</span></h3>
+      <hr>
       <h5>As your screening score is 11 or less, continue with the assessment to gain a Malnutrition Indicator Score</h5>
     </div>
   </div>
@@ -88,15 +98,19 @@
 </section>
 <section class="section" *ngIf="totalScore>=0">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 text-dark">
       <h3>Your Total Score is {{totalScore}}</h3>
+      <hr>
       <h5>Your MNA screening score is {{mnaBasicScore}} and MNA assesment score is {{assesMentScore}}</h5>
-      <h3 *ngIf="totalScore<=30 && totalScore>=24">Your MNA Indicator : Normal nutritional status</h3>
-      <h3 *ngIf="totalScore<=23.5 && totalScore>=17">Your MNA Indicator : At risk of malnutrition</h3>
-      <h3 *ngIf="totalScore<17 && totalScore>=0">Your MNA Indicator : Malnourished</h3>
+      <hr>
+      <h3 *ngIf="totalScore<=30 && totalScore>=24">Your MNA Indicator :<span class="text-success"> Normal nutritional status</span></h3>
+      <h3 *ngIf="totalScore<=23.5 && totalScore>=17">Your MNA Indicator :ator :<span class="text-info"> At risk of malnutrition</span></h3>
+      <h3 *ngIf="totalScore<17 && totalScore>=0">Your MNA Indicator : <span class="text-danger">Malnourished</span></h3>
+
     </div>
   </div>
 </section>
+<hr>
 <div class="row">
   <div class="card col-md-12">
     <div class="card-header d-flex justify-content-between">

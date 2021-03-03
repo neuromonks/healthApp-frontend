@@ -6,6 +6,7 @@ import {PatientComponent} from "./patient.component";
 import {NrsFormComponent} from "./nrs-form/nrs-form.component";
 import {MnaFormComponent} from "./mna-form/mna-form.component";
 import {Mnst20Component} from "./mnst20/mnst20.component";
+import {PredictionsComponent} from "./predictions/predictions.component";
 
 const routes: Routes = [{
   path:'',
@@ -30,6 +31,10 @@ const routes: Routes = [{
     {
       path:'mnst20Form',
       component:Mnst20Component
+    },
+    {
+      path:'predictions/:id',
+      component:PredictionsComponent
     },
 
 

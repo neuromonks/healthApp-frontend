@@ -31,7 +31,11 @@
       </li>
       </ng-container>
       <ng-container *ngIf="userData.user_type=='doctor'">
-
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'admin' ]">
+            <i class="fa fa-home mx-auto"></i> <span>Dashboard</span>
+          </a>
+        </li>
         <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink] = "['/' , 'admin' , 'patient']">
             <i class="fa fa-home mx-auto"></i> <span>All Patients</span>
@@ -62,6 +66,11 @@
         <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
           <a class="nav-link" [routerLink] = "['/' , 'patient' , 'mnst20Form']">
             <i class="fa fa-home mx-auto"></i> <span>MNST-20 Form</span>
+          </a>
+        </li>
+        <li routerLinkActive= "active" [routerLinkActiveOptions]="{exact: true}">
+          <a class="nav-link" [routerLink] = "['/' , 'patient' , 'predictions',userData['id'] ]">
+            <i class="fa fa-home mx-auto"></i> <span>Predictions</span>
           </a>
         </li>
       </ng-container>
