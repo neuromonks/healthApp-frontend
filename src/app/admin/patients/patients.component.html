@@ -28,8 +28,8 @@
             <td >{{item['email'] }}</td>
             <td >{{item['mobile'] |titlecase}}</td>
             <td>
-              <button class="btn btn-info mr-2" (click)="details(i);lgModal.show()" > Details </button>
-              <button  class="btn btn-warning mr-2" (click)="edit(i);lgModal.show()">Edit</button>
+              <button *ngIf="isAdmin" class="btn btn-info mr-2" (click)="details(i);lgModal.show()" > Details </button>
+              <button *ngIf="isAdmin"  class="btn btn-warning mr-2" (click)="edit(i);lgModal.show()">Edit</button>
               <a [routerLink] = "['/' , 'admin' , 'patient','details',item['id'] ]" class="btn btn-danger mr-2" *ngIf="userData['user_type']=='doctor'" >Medical Details</a>
             </td>
           </tr>

@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Ng2IzitoastService} from "ng2-izitoast";
 import {Router} from "@angular/router";
 import {AuthService, CommonService} from "../../services";
-import {IAngularMyDpOptions, IMyDateModel,IMyDate } from 'angular-mydatepicker';
+import {IAngularMyDpOptions, IMyDateModel,IMyDate,DefaultView  } from 'angular-mydatepicker';
 
 @Component({
   selector: 'app-register',
@@ -13,11 +13,15 @@ import {IAngularMyDpOptions, IMyDateModel,IMyDate } from 'angular-mydatepicker';
 export class RegisterComponent implements OnInit {
   form: FormGroup;
   submitted = false;
-  todayMyDate:IMyDate  = {year:new Date().getFullYear(),month:new Date().getMonth()+1,day:new Date().getDate()}
+  todayMyDate:IMyDate  = {year:new Date().getFullYear()-17,month:new Date().getMonth()+1,day:new Date().getDate()}
+  // defaultMyDate:DefaultView  = {day:new Date().getDate(),month:new Date().getMonth()+1,year:new Date().getFullYear()-17}
   myOptions: IAngularMyDpOptions = {
     dateRange: false,
+    minYear : 1900,
+    maxYear : new Date().getFullYear()-17,
     dateFormat: 'dd-mm-yyyy',
-    disableSince : this.todayMyDate
+    disableSince : this.todayMyDate,
+    // defaultView : this.defaultMyDate
   };
   allHospital=[]
 
@@ -41,7 +45,7 @@ export class RegisterComponent implements OnInit {
       lastName: ['', [Validators.required,]],
       user_type : ['patient', [Validators.required,]],
       mobile : ['', [Validators.required,]],
-      dob : ['',[Validators.required,]],
+      dob : [this.todayMyDate,[Validators.required,]],
       address:['',[Validators.required,]],
       height:['',[Validators.required,]],
       weight:['',[Validators.required,]],
@@ -49,6 +53,12 @@ export class RegisterComponent implements OnInit {
       agreement_check:[false,[Validators.required,]],
       hospital_id:['']
     });
+    this.form.patchValue({dob: {
+        date: {
+          year: new Date().getFullYear()-17,
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate()}
+      }});
     this.getAllHospital();
 
   }

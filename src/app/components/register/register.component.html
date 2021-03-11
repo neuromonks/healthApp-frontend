@@ -71,6 +71,7 @@
                   <input  class="form-control" placeholder="Select a date" angular-mydatepicker name="myDate"
                           id="dob" formControlName="dob" [options]="myOptions" (click)="dp.toggleCalendar()" #dp="angular-mydatepicker"/>
                   <!--                <input id="dob" formControlName="dob" type="text" class="form-control" name="dob" tabindex="1" required autofocus>-->
+                  <div>You must be at least 18 years old.</div>
                   <div *ngIf="submitted && form.controls.dob.errors" class="invalid-feedback">
                     <div *ngIf="form.controls.dob.errors.required">Please fill in your dob</div>
                   </div>
@@ -129,8 +130,11 @@
               </div>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="checkbox">
-                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a [routerLink]="['/','patientConsent']">Patient Consent</a> and <a [routerLink]="['/','doctorConsent']">Doctor Consent</a> terms.</span></label>
+                  <div class="checkbox" *ngIf="form.value.user_type == 'patient'">
+                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a [routerLink]="['/','patientConsent']">Patient Consent</a> terms.</span></label>
+                  </div>
+                  <div class="checkbox" *ngIf="form.value.user_type == 'doctor'">
+                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a [routerLink]="['/','doctorConsent']">Doctor Consent</a> terms.</span></label>
                   </div>
 
                 </div>

@@ -99,7 +99,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr *ngFor="let item of getNRSFormData();let i = index">
+                  <tr *ngFor="let item of previousNRSData;let i = index">
                     <td>{{item['timestamp'] }}</td>
                     <td>{{item['bmiIndicator']?'True':'False'}}</td>
                     <td>{{item['weightChange']?'True':'False'}}</td>
@@ -159,6 +159,8 @@
                     <th>Assesment Score  </th>
                     <th>Total Score</th>
                     <th>Remark</th>
+                    <th *ngFor="let eachItem of getJsonKeys(json1)">{{json1[eachItem]['label'] | titlecase}} </th>
+                    <th *ngFor="let eachItem of getJsonKeys(json2)">{{json2[eachItem]['label'] | titlecase}} </th>
                   </tr>
                   </thead>
                   <tbody>
@@ -172,7 +174,8 @@
                       <p *ngIf="item['finalScore']<=23.5 && item['finalScore']>=17">At risk of malnutrition</p>
                       <p *ngIf="item['finalScore']<17 && item['finalScore']>=0">Malnourished</p>
                     </td>
-
+                    <td *ngFor="let eachItem of getJsonKeys(json1)">{{getValueOfMNA1FormOption(eachItem,item[eachItem]) | titlecase }}  </td>
+                    <td *ngFor="let eachItem of getJsonKeys(json2)">{{getValueOfMNA2FormOption(eachItem,item[eachItem]) | titlecase }}  </td>
                   </tr>
 
                   </tbody>

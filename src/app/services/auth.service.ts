@@ -45,8 +45,10 @@ export class AuthService {
     let authToken = localStorage.getItem('userDetails');
     if(authToken !== null){
       let userDetails = JSON.parse(localStorage.getItem('userDetails'));
-      if(userDetails.hasOwnProperty('is_admin')){
-        return userDetails['is_admin'];
+      if(userDetails.hasOwnProperty('user_type') && userDetails['user_type']=='admin'){
+        return true;
+      }else{
+        return false;
       }
     }else{
       this.router.navigate(['login']);

@@ -26,7 +26,39 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="isAdmin">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3>Total Patient Count</h3>
+        </div>
+        <div class="card-body">
+          <h4>{{dashboardData['patientCount'][0]}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3>Total Doctors Count</h3>
+        </div>
+        <div class="card-body">
+          <h4>{{dashboardData['doctorCount'][0]}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3>Total Hospital Count</h3>
+        </div>
+        <div class="card-body">
+          <h4>{{dashboardData['hospitalCount'][0]}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="isAdmin">
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
@@ -144,7 +176,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="isAdmin">
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">

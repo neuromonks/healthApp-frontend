@@ -21,6 +21,7 @@ export class PatientsComponent implements OnInit {
   viewOnly=false;
   selectedIndex=-1;
   userData:any;
+  isAdmin = false;
   myOptions: IAngularMyDpOptions = {
     dateRange: false,
     dateFormat: 'dd-mm-yyyy'
@@ -34,6 +35,7 @@ export class PatientsComponent implements OnInit {
 
   ngOnInit() {
     this.userData = this.authService.getUserInfo();
+    this.isAdmin = this.authService.isAdmin();
     this.form = this.builder.group({
       email: ['', [Validators.required,Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
