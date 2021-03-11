@@ -1,7 +1,60 @@
+<!--<section class="section">-->
+<!--  <div class="section-header">-->
+<!--    <h1>Patient Details</h1>-->
+<!--  </div>-->
+<!--</section>-->
 <section class="section">
   <div class="section-header">
-    <h1>Patient Details</h1>
+    <h1>Patient Name : {{userData.name}}</h1>
   </div>
+  <div class="row" *ngIf="showForm">
+    <h3>Please Fill Following Form</h3>
+  </div>
+  <div class="row " *ngIf="showForm">
+    <app-dynamic-form style="width: 100%" [formJson]="formJson" [debug]="false" (output)="submitFormData($event)"></app-dynamic-form>
+  </div>
+</section>
+<section class="section" *ngIf="!showForm">
+  <div class="row">
+    <div class="col-md-3 mb-4 mb-lg-0 text-center" *ngFor="let eachMonth of getJsonKeys(months)">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h4>Weight Change Percentage {{eachMonth}}</h4>
+        </div>
+        <div class="card-body">
+          <div class="fa fa-balance-scale"></div>
+          <div class="mt-2 font-weight-bold">{{eachMonth}}</div>
+          <div class="text-small text-muted"><span [ngClass]="months[eachMonth]['data']['weightChangeP']>=0?'text-primary':'text-danger'" class=""><i class="fa" [ngClass]="months[eachMonth]['data']['weightChangeP']>=0?'fa-caret-up':'fa-caret-down'"></i></span> {{months[eachMonth]['data']['weightChangeP'] | number : '1.2-2'}}%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 mb-4 mb-lg-0 text-center" >
+      <div class="card mt-4">
+        <div class="card-header text-center">
+          <h4>BMI</h4>
+        </div>
+        <div class="card-body">
+          <div class="fa fa-balance-scale"></div>
+          <div class="mt-2 font-weight-bold">{{bmiValue | number : '1.2-2'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="bmiValue!=null">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h3>Calories & Protein Input</h3>
+        </div>
+        <div class="card-body">
+          <h4>Calories : {{calories}}</h4>
+          <h4>Protein : {{protein}}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 <section class="section">
   <div class="row">

@@ -302,4 +302,9 @@ export class PatientsComponent implements OnInit {
     return hospitalName;
   }
 
+  routetoPatientDetails(patient,id){
+    localStorage.setItem('patientData',JSON.stringify(patient))
+    this.commonService.navigateTo('/admin/patient/details/'+id);
+  }
+
 }
