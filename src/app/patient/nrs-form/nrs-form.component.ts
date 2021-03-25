@@ -57,6 +57,11 @@ export class NrsFormComponent implements OnInit {
     if(localStorage.getItem('BMIData'))
     {
       this.bmiData = JSON.parse(localStorage.getItem('BMIData'))
+      this.bmiValue = this.bmiData['bmi']
+    }
+    else{
+      this.noDataError = true;
+      this.commonService.navigateTo('/patient');
     }
     if(localStorage.getItem('weightData'))
     {
@@ -66,13 +71,13 @@ export class NrsFormComponent implements OnInit {
       this.commonService.navigateTo('/patient');
     }
 
-    if(localStorage.getItem('bmi'))
-    {
-      this.bmiValue = +(JSON.parse(localStorage.getItem('bmi')))
-    }else{
-      this.noDataError = true;
-      this.commonService.navigateTo('/patient');
-    }
+    // if(localStorage.getItem('bmi'))
+    // {
+    //   this.bmiValue = +(JSON.parse(localStorage.getItem('bmi')))
+    // }else{
+    //   this.noDataError = true;
+    //   this.commonService.navigateTo('/patient');
+    // }
 
     for(let item of Object.keys(this.weigthData)){
       if(!this.weigthData[item]['dataFlag']){
@@ -123,8 +128,9 @@ export class NrsFormComponent implements OnInit {
       disease : ['', [Validators.required]],
       diseaseName : ['', [Validators.required]],
     });
-
+    console.log("3456",this.bmiValue)
     if(this.bmiValue<20.5){
+      console.log('d')
       this.nrsForm.patchValue({
         bmiIndicator:"1"
       })
