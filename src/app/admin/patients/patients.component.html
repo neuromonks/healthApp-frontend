@@ -106,6 +106,22 @@
               </div>
             </div>
             <div class="row">
+              <div class="form-group col-6">
+                <label for="height">Height</label>
+                <input [readOnly]="viewOnly" id="height" formControlName="height" type="number"  class="form-control" name="height" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.height.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.height.errors.required">Please fill in your height</div>
+                </div>
+              </div>
+              <div class="form-group col-6">
+                <label for="weight">weight</label>
+                <input [readOnly]="viewOnly" id="weight" formControlName="weight" type="number"  class="form-control" name="weight" tabindex="1" required autofocus>
+                <div *ngIf="submitted && form.controls.weight.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.weight.errors.required">Please fill in your weight</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
               <div class="form-group col-md-6">
                 <label for="gender">Gender</label>
                 <ng-container *ngIf="viewOnly">
@@ -119,9 +135,24 @@
                   </select>
                 </ng-container>
 
-                <div *ngIf="submitted && form.controls.user_type.errors" class="invalid-feedback">
-                  <div *ngIf="form.controls.user_type.errors.required">Please fill in your user_type</div>
+                <div *ngIf="submitted && form.controls.gender.errors" class="invalid-feedback">
+                  <div *ngIf="form.controls.gender.errors.required">Please fill in your gender</div>
                 </div>
+              </div>
+              <div class="form-group col-md-6" >
+                <label for="hospital_id">Hospital Name</label>
+                <ng-container *ngIf="viewOnly">
+                  <input class="form-control" value="{{form.value.hospital_id | titlecase}}" [readOnly]="viewOnly">
+                </ng-container>
+                <ng-container *ngIf="!viewOnly" >
+                  <select id="hospital_id" formControlName = "hospital_id" type="text" class="form-control "  name="hospital_id"  >
+                    <option *ngFor="let hospital of allHospital"  value="{{hospital['id']}}" >{{hospital['name'] | titlecase}}</option>
+                  </select>
+                  <div *ngIf="submitted && form.controls.hospital_id.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.hospital_id.errors.required">Please fill in your user_type</div>
+                  </div>
+                </ng-container>
+
               </div>
             </div>
 

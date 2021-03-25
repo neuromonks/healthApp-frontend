@@ -65,7 +65,7 @@ export class MnaFormComponent implements OnInit {
       type: 'select',
       options: [
         { label: 'yes', value: 0 },
-        { label: 'no', value: 1 },
+        { label: 'no', value: 2 },
       ],
       validation: {
         "required": true}
@@ -221,7 +221,7 @@ export class MnaFormComponent implements OnInit {
         { label: 'not as good', value: 0},
         { label: 'does not know', value: 0.5 },
         { label: 'as good', value: 1 },
-        { label: 'better', value: 1 },
+        { label: 'better', value: 2 },
       ],
       validation: {
         "required": true}
@@ -294,12 +294,13 @@ export class MnaFormComponent implements OnInit {
 
   screeningScoreCalculation(fg) {
     this.screeningData = fg;
-    this.mnaBasicScore = -1;
+    this.mnaBasicScore = 0;
     console.log(fg)
     for(let eachAns of Object.keys(fg)){
       this.mnaBasicScore+=(+fg[eachAns])
       fg[eachAns] = (+fg[eachAns])
     }
+    console.log(this.mnaBasicScore);
     this.showForm1 = false;
     if(this.mnaBasicScore<=11){
       this.startAssesment = true;

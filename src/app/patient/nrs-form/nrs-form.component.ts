@@ -233,7 +233,7 @@ export class NrsFormComponent implements OnInit {
       dataToSend['illFlag']=(+this.nrsForm.value.illFlag)
       dataToSend['finalResult']=this.finalResult
       dataToSend['patient_id']=this.userData['id']
-      dataToSend['finalScore']= (+dataToSend['bmiIndicator'])+(+dataToSend['weightChange'])+(+dataToSend['dieteryIntakeLost'])+(+dataToSend['illFlag'])
+      dataToSend['finalScore']= 0
       this.commonService.apiCall('post','form/nrs',dataToSend).subscribe(data=>{
         this.getNRSFormData()
         this.iziToast.info({
@@ -313,7 +313,7 @@ export class NrsFormComponent implements OnInit {
     dataToSend['illFlag']=(+this.nrsForm.value.illFlag)
     dataToSend['finalResult']=this.finalResult
     dataToSend['patient_id']=this.userData['id']
-    dataToSend['finalScore']= (+dataToSend['bmiIndicator'])+(+dataToSend['weightChange'])+(+dataToSend['dieteryIntakeLost'])+(+dataToSend['illFlag'])+this.table2Score;
+    dataToSend['finalScore']= this.table2Score;
     this.commonService.apiCall('post','form/nrs',dataToSend).subscribe(data=>{
       this.iziToast.info({
         title: 'Info',

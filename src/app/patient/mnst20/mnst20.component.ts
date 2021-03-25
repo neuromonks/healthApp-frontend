@@ -93,10 +93,10 @@ export class Mnst20Component implements OnInit {
       label: 'In comparison with other people of the same age, how does the patient consider his / her health status?',
       type: 'select',
       options: [
-        { label: 'not as good', value: 0},
-        { label: 'does not know', value: 0.5 },
-        { label: 'as good', value: 1 },
-        { label: 'better', value: 1 },
+        { label: 'not as good', value: 2},
+        { label: 'does not know', value: 1 },
+        { label: 'as good', value: 0.5 },
+        { label: 'better', value: 0 },
       ],
       validation: {
         "required": true}
@@ -275,7 +275,7 @@ export class Mnst20Component implements OnInit {
         this.json['disease']['value']=this.previousData['nrs'][0]['disease']
         this.json['mobility']['value']=this.previousData['mna'][0]['questionC']
         this.json['modeOfFeeding']['value']=this.previousData['mna'][0]['questionN']
-        this.json['healthStatus']['value']=this.previousData['mna'][0]['questionP']
+        // this.json['healthStatus']['value']=this.previousData['mna'][0]['questionP']
 
         this.showTableTwo = true;
       }else{

@@ -9,11 +9,13 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./predictions.component.css']
 })
 export class PredictionsComponent implements OnInit {
+  userData:any;
   userId ;
   mnaResult = null;
   nrsResult = null;
   mnst20Result = null;
   mustResult = null;
+  previousData={'must':[],'nrs':[],'mna':[]};
   constructor(private iziToast: Ng2IzitoastService ,
               private commonService:CommonService,
               private activatedRoute: ActivatedRoute) { }
@@ -22,31 +24,23 @@ export class PredictionsComponent implements OnInit {
     this.activatedRoute.params.subscribe(paramsId => {
       this.userId = paramsId.id;
       console.log(this.userId);
+      this.checkPreviousData();
     });
+
   }
 
   mnaPredict(){
+    if(this.previousData['mna'].length==0){
+      this.iziToast.info({
+        title: 'Info',
+        message: "MNA Form Data Not Available Please fill it first",
+        position: 'topCenter'
+      });
+      this.commonService.navigateTo('/patient/mnaForm');
+      return;
+    }
     let objectToSend = {
-      "Food_Intake_decline" : 1,
-      "Weight_Loss_Score": 1,
-      "Mobility" : 0,
-      "PS_or_AD" : 0,
-      "Neuropsylogical_problems" : 1,
-      "BMI_score" : 0,
-      "Lives_independently" : 1,
-      "precription" : 0,
-      "Pressure_sores" : 1,
-      "Meal" : 1,
-      "Protein_intake" : 0.5,
-      "Fruit" : 1,
-      "Fluid_intake" : 1,
-      "Mode_of_feeding" : 0,
-      "Nutritional_status" : 1,
-      "Health_status" : 1,
-      "BMI" : 17.36,
-      "score1(A-F)" : 3,
-      "Nutrition_Assessment_Result(Total_score)=V1+(H-Q)" : 10.5
-
+      "total_score":this.previousData['mna'][0]['finalScore']
     }
     this.commonService.loader(true);
     this.commonService.apiCall('post','form/prediction?form_name=mna',objectToSend).subscribe(
@@ -74,15 +68,17 @@ export class PredictionsComponent implements OnInit {
     );
   }
   mustPredict(){
+    if(this.previousData['must'].length==0){
+      this.iziToast.info({
+        title: 'Info',
+        message: "MNA Form Data Not Available Please fill it first",
+        position: 'topCenter'
+      });
+      this.commonService.navigateTo('/patient/mustForm');
+      return;
+    }
     let objectToSend = {
-      "BMI": 2 ,
-      "Age": 70,
-      "Weight" : 49,
-      "wt_p" : 49,
-      "wt_s" : 0,
-      "ADE" : 2,
-      "Wt_loss" : 0,
-      "BMI.1" : 17.36
+      "total_score":this.previousData['must'][0]['finalScore']
     }
     this.commonService.loader(true);
     this.commonService.apiCall('post','form/prediction?form_name=must',objectToSend).subscribe(
@@ -110,18 +106,17 @@ export class PredictionsComponent implements OnInit {
     );
   }
   nrsPredict(){
+    if(this.previousData['nrs'].length==0){
+      this.iziToast.info({
+        title: 'Info',
+        message: "MNA Form Data Not Available Please fill it first",
+        position: 'topCenter'
+      });
+      this.commonService.navigateTo('/patient/nrsForm');
+      return;
+    }
     let objectToSend = {
-      "BMI<20.5" : 1,
-      "Wt_loss" : 0,
-      "Reduce_intake" : 1,
-      "Severely_ill" : 1,
-      "Impared_nutritional_status" : 1,
-      "Severity_disease" : 1,
-      "Total_score" : 2,
-      "Age" : 70,
-      "BMI" : 17,
-      "Weight_Loss_Score" : 1,
-      "Food_Intake_decline" : 1
+      "total_score":this.previousData['nrs'][0]['finalScore']
     }
     this.commonService.loader(true);
     this.commonService.apiCall('post','form/prediction?form_name=nrs',objectToSend).subscribe(
@@ -149,15 +144,17 @@ export class PredictionsComponent implements OnInit {
     );
   }
   mnst20Predict(){
+    if(this.previousData['mnst20'].length==0){
+      this.iziToast.info({
+        title: 'Info',
+        message: "MNA Form Data Not Available Please fill it first",
+        position: 'topCenter'
+      });
+      this.commonService.navigateTo('/patient/mnst20Form');
+      return;
+    }
     let objectToSend = {
-      "Mobility" : 2,
-      "Mode_of_feeding" : 1,
-      "Health_status" : 0.5,
-      "BMI" : 1,
-      "ADE" : 0,
-      "Impared_nutritional_status" : 3.0,
-      "Severity_disease" : 0,
-      "Score" : 7.5
+      "total_score":this.previousData['mnst20'][0]['finalScore']
     }
     this.commonService.loader(true);
     this.commonService.apiCall('post','form/prediction?form_name=mnst20',objectToSend).subscribe(
@@ -185,4 +182,63 @@ export class PredictionsComponent implements OnInit {
     );
   }
 
+  checkPreviousData(){
+    let today= new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+
+    this.commonService.loader(true);
+    this.commonService.apiCall('get','form/data?patient_id='+this.userId+'&date='+date).subscribe(data=>{
+        this.commonService.loader(false);
+        if(data['success']){
+          this.previousData = data['result'];
+          if(this.previousData['must'].length<=0){
+            console.log('shubham')
+            this.iziToast.info({
+              title: 'Info',
+              message: "Must Form Data Not Available Please fill it first",
+              position: 'topCenter'
+            });
+            this.commonService.navigateTo('/patient/mustForm');
+            return;
+          }
+          if(this.previousData['mna'].length==0){
+            this.iziToast.info({
+              title: 'Info',
+              message: "MNA Form Data Not Available Please fill it first",
+              position: 'topCenter'
+            });
+            this.commonService.navigateTo('/patient/mnaForm');
+            return;
+          }
+          if(this.previousData['nrs'].length==0){
+            this.iziToast.info({
+              title: 'Info',
+              message: "NRS Form Data Not Available Please fill it first",
+              position: 'topCenter'
+            });
+            this.commonService.navigateTo('/patient/nrsForm');
+            return;
+          }
+
+
+
+        }else{
+          console.log(data);
+          this.iziToast.info({
+            title: 'Info',
+            message: data['message'],
+            position: 'topCenter'
+          });
+        }
+      },
+      error => {
+        this.commonService.loader(false);
+        console.log(error);
+        this.iziToast.info({
+          title: 'Info',
+          message: error['message'],
+          position: 'topCenter'
+        });
+      })
+  }
 }

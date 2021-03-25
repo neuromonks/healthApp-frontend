@@ -43,8 +43,8 @@ export class CommonService {
 
   apiCall(type:string,url:string,body={},header={}){
 
-    // url='https://demo.shreekakajimasale.com/nutrihealth/'+url;
-    url='http://127.0.0.1:5000/'+url;
+    url='https://demo.shreekakajimasale.com/nutrihealth/'+url;
+    // url='http://127.0.0.1:5000/'+url;
     switch(type.toLowerCase()){
       case 'get':{
         return this.http.get(url,body);

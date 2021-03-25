@@ -132,9 +132,9 @@ export class MustFormComponent implements OnInit {
     if (this.bmi >= 18.5 && this.bmi <= 20) {
       this.bmiScore = 1;
     } else if (this.bmi > 20) {
-      this.bmiScore = 2;
-    } else {
       this.bmiScore = 0;
+    } else {
+      this.bmiScore = 2;
     }
     localStorage.setItem('BMIData', JSON.stringify({'bmi': this.bmi, 'bimScore': this.bmiScore}))
     this.totalNutritionScore = this.bmiScore + this.mustForm.value.weightChangeFlag + (+this.mustForm.value.intake)
@@ -172,7 +172,7 @@ export class MustFormComponent implements OnInit {
           this.previousMustData = data['result']
           for(let eachEntry of this.previousMustData){
             let nutrScore = eachEntry['nutrient_intake']?1:0;
-            eachEntry['finalScore']=eachEntry['bmi_score']+eachEntry['weight_change_score']+nutrScore;
+            eachEntry['finalScore']=eachEntry['finalScore'];
           }
           this.commonService.loader(false);
         }else{

@@ -1,7 +1,7 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {IAngularMyDpOptions,IMyDateModel} from "angular-mydatepicker";
+import {IAngularMyDpOptions, IMyDate, IMyDateModel} from "angular-mydatepicker";
 import {Ng2IzitoastService} from "ng2-izitoast";
 import {AuthService, CommonService} from "../../services";
 
@@ -22,9 +22,15 @@ export class PatientsComponent implements OnInit {
   selectedIndex=-1;
   userData:any;
   isAdmin = false;
+  todayMyDate:IMyDate  = {year:new Date().getFullYear()-17,month:new Date().getMonth()+1,day:new Date().getDate()}
+  // defaultMyDate:DefaultView  = {day:new Date().getDate(),month:new Date().getMonth()+1,year:new Date().getFullYear()-17}
   myOptions: IAngularMyDpOptions = {
     dateRange: false,
-    dateFormat: 'dd-mm-yyyy'
+    minYear : 1900,
+    maxYear : new Date().getFullYear()-17,
+    dateFormat: 'dd-mm-yyyy',
+    disableSince : this.todayMyDate,
+    // defaultView : this.defaultMyDate
   };
 
   constructor(private iziToast: Ng2IzitoastService ,
@@ -43,10 +49,13 @@ export class PatientsComponent implements OnInit {
       lastName: ['', [Validators.required,]],
       user_type : ['patient', []],
       mobile : ['', [Validators.required,]],
-      dob : ['',[Validators.required,]],
-      address : ['',[Validators.required,]],
+      dob : [this.todayMyDate,[Validators.required,]],
+      address:['',[Validators.required,]],
+      height:['',[Validators.required,]],
+      weight:['',[Validators.required,]],
       gender:['male',[Validators.required,]],
       agreement_check:[true,[]],
+      hospital_id:['']
 
     });
     this.dtOptions = {
@@ -183,7 +192,7 @@ export class PatientsComponent implements OnInit {
     let objectToSend = JSON.parse(JSON.stringify(this.form.value));
     objectToSend['name']=objectToSend['firstName']+' '+objectToSend['lastName'];
     objectToSend['dob']=this.form.value['dob']['singleDate']['formatted'];
-    objectToSend['user_type']='doctor'
+    objectToSend['user_type']='patient'
     this.commonService.loader(true);
     if(this.isEdit){
       delete objectToSend['password']
@@ -248,7 +257,9 @@ export class PatientsComponent implements OnInit {
     this.isEdit = true;
     this.viewOnly = false;
     this.selectedIndex=index;
+
     let model: IMyDateModel = {isRange: false, singleDate: {jsDate: new Date(this.allInactiveUser[index]['dob'])}, dateRange: null};
+
     this.form.patchValue({
       email: this.allInactiveUser[index]['email'],
       password: '123456',
@@ -260,14 +271,19 @@ export class PatientsComponent implements OnInit {
       address : this.allInactiveUser[index]['address'],
       gender:this.allInactiveUser[index]['gender'],
       hospital_id:this.allInactiveUser[index]['hospital_id'],
-      agreement_check:true
+      agreement_check:true,
+      weight : this.allInactiveUser[index]['weight'],
+      height : this.allInactiveUser[index]['height'],
     });
+
   }
 
   details(index){
     this.isEdit = true;
     this.viewOnly = true;
     this.selectedIndex =index;
+    console.log(this.allInactiveUser[index])
+
     let model: IMyDateModel = {isRange: false, singleDate: {jsDate: new Date(this.allInactiveUser[index]['dob'])}, dateRange: null};
     this.form.patchValue({
       email: this.allInactiveUser[index]['email'],
@@ -279,9 +295,12 @@ export class PatientsComponent implements OnInit {
       dob : model,
       address : this.allInactiveUser[index]['address'],
       gender:this.allInactiveUser[index]['gender'],
-      hospital_id:this.allInactiveUser[index]['hospital_id'],
-      agreement_check:true
+      hospital_id:this.allInactiveUser[index]['hospital_name'],
+      agreement_check:true,
+      weight : this.allInactiveUser[index]['weight'],
+      height : this.allInactiveUser[index]['height'],
     });
+    console.log(this.form.value)
   }
 
   clearForm(){
