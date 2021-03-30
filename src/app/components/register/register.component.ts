@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Ng2IzitoastService} from "ng2-izitoast";
 import {Router} from "@angular/router";
 import {AuthService, CommonService} from "../../services";
 import {IAngularMyDpOptions, IMyDateModel,IMyDate,DefaultView  } from 'angular-mydatepicker';
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ import {IAngularMyDpOptions, IMyDateModel,IMyDate,DefaultView  } from 'angular-m
 export class RegisterComponent implements OnInit {
   form: FormGroup;
   submitted = false;
+  modalRef: BsModalRef;
   todayMyDate:IMyDate  = {year:new Date().getFullYear()-17,month:new Date().getMonth()+1,day:new Date().getDate()}
   // defaultMyDate:DefaultView  = {day:new Date().getDate(),month:new Date().getMonth()+1,year:new Date().getFullYear()-17}
   myOptions: IAngularMyDpOptions = {
@@ -24,13 +26,16 @@ export class RegisterComponent implements OnInit {
     // defaultView : this.defaultMyDate
   };
   allHospital=[]
-
+  years = [];
+  months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+  days = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
   constructor(
     private builder: FormBuilder,
     private iziToast: Ng2IzitoastService ,
     private router: Router,
     private commonService :  CommonService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: BsModalService,
   ) {
 
   }
@@ -45,7 +50,10 @@ export class RegisterComponent implements OnInit {
       lastName: ['', [Validators.required,]],
       user_type : ['patient', [Validators.required,]],
       mobile : ['', [Validators.required,]],
-      dob : [this.todayMyDate,[Validators.required,]],
+      // dob : [this.todayMyDate,[Validators.required,]],
+      year : ['',[Validators.required]],
+      month : ['',[Validators.required]],
+      day : ['',[Validators.required]],
       address:['',[Validators.required,]],
       height:['',[Validators.required,]],
       weight:['',[Validators.required,]],
@@ -53,14 +61,23 @@ export class RegisterComponent implements OnInit {
       agreement_check:[false,[Validators.required,]],
       hospital_id:['']
     });
-    this.form.patchValue({dob: {
-        date: {
-          year: new Date().getFullYear()-17,
-          month: new Date().getMonth() + 1,
-          day: new Date().getDate()}
-      }});
+    // this.form.patchValue({dob: {
+    //     date: {
+    //       year: new Date().getFullYear()-17,
+    //       month: new Date().getMonth() + 1,
+    //       day: new Date().getDate()}
+    //   }});
     this.getAllHospital();
 
+    let currentYearStart = new Date().getFullYear()-17;
+    for(let i=0;i<110;i++){
+      this.years.push(currentYearStart-i);
+    }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    console.log(template)
+    this.modalRef = this.modalService.show(template);
   }
 
   getAllHospital(){
@@ -111,7 +128,7 @@ export class RegisterComponent implements OnInit {
 
     let objectToSend = JSON.parse(JSON.stringify(this.form.value));
     objectToSend['name']=objectToSend['firstName']+' '+objectToSend['lastName'];
-    objectToSend['dob']=this.form.value['dob']['singleDate']['formatted'];
+    objectToSend['dob']=this.form.value['day']+this.form.value['month']+this.form.value['year'];
     if(objectToSend['user_type']!='doctor'){
       objectToSend['hospital_id']='';
     }

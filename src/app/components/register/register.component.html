@@ -44,38 +44,75 @@
               </div>
               <div class="row">
                 <div class="form-group col-6">
-                  <label for="height">Height</label>
+                  <label for="height">Height(in cm)</label>
                   <input id="height" formControlName="height" type="number"  class="form-control" name="height" tabindex="1" required autofocus>
                   <div *ngIf="submitted && form.controls.height.errors" class="invalid-feedback">
                     <div *ngIf="form.controls.height.errors.required">Please fill in your height</div>
                   </div>
                 </div>
                 <div class="form-group col-6">
-                  <label for="weight">weight</label>
+                  <label for="weight">Weight(in kg)</label>
                   <input id="weight" formControlName="weight" type="number"  class="form-control" name="weight" tabindex="1" required autofocus>
                   <div *ngIf="submitted && form.controls.weight.errors" class="invalid-feedback">
                     <div *ngIf="form.controls.weight.errors.required">Please fill in your weight</div>
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div style="width: 100%">Date of Birth(You must be at least 18 years old.)</div>
+                <div class="form-group col-4">
+                  <label for="year"> Birth Year</label>
+                  <select  class="form-control" placeholder="Select a Year"  name="year"
+                           id="year" formControlName="year" >
+                    <option value="">Select Year</option>
+                    <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                  </select>
 
-              <div class="row"></div>
 
-
-
-
-
-
-                <div class="form-group ">
-                  <label for="dob">Date Of Birth</label>
-                  <input  class="form-control" placeholder="Select a date" angular-mydatepicker name="myDate"
-                          id="dob" formControlName="dob" [options]="myOptions" (click)="dp.toggleCalendar()" #dp="angular-mydatepicker"/>
-                  <!--                <input id="dob" formControlName="dob" type="text" class="form-control" name="dob" tabindex="1" required autofocus>-->
-                  <div>You must be at least 18 years old.</div>
-                  <div *ngIf="submitted && form.controls.dob.errors" class="invalid-feedback">
-                    <div *ngIf="form.controls.dob.errors.required">Please fill in your dob</div>
+                  <div *ngIf="submitted && form.controls.year.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.year.errors.required">Please fill in your dob's year</div>
                   </div>
                 </div>
+                <div class="form-group col-4">
+                  <label for="month"> Birth Month</label>
+                  <select  class="form-control" placeholder="Select a Year"  name="month"
+                           id="month" formControlName="month" >
+                    <option value="">Select Month</option>
+                    <option *ngFor="let year of months" value="{{year}}">{{year}}</option>
+                  </select>
+
+
+                  <div *ngIf="submitted && form.controls.month.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.month.errors.required">Please fill in your dob's month</div>
+                  </div>
+                </div>
+                <div class="form-group col-4">
+                  <label for="year"> Birth Day</label>
+                  <select  class="form-control" placeholder="Select a Year"  name="day"
+                           id="day" formControlName="day" >
+                    <option value="">Select Day</option>
+                    <option *ngFor="let year of days" value="{{year}}">{{year}}</option>
+                  </select>
+
+
+                  <div *ngIf="submitted && form.controls.day.errors" class="invalid-feedback">
+                    <div *ngIf="form.controls.day.errors.required">Please fill in your dob's date</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+<!--                <div class="form-group ">-->
+<!--                  <label for="dob">Date Of Birth</label>-->
+<!--                  <input  class="form-control" placeholder="Select a date" angular-mydatepicker name="myDate"-->
+<!--                          id="dob" formControlName="dob" [options]="myOptions" (click)="dp.toggleCalendar()" #dp="angular-mydatepicker"/>-->
+<!--                  &lt;!&ndash;                <input id="dob" formControlName="dob" type="text" class="form-control" name="dob" tabindex="1" required autofocus>&ndash;&gt;-->
+<!--                  <div>You must be at least 18 years old.</div>-->
+<!--                  <div *ngIf="submitted && form.controls.dob.errors" class="invalid-feedback">-->
+<!--                    <div *ngIf="form.controls.dob.errors.required">Please fill in your dob</div>-->
+<!--                  </div>-->
+<!--                </div>-->
                 <div class="form-group ">
                   <label for="address">Address</label>
                   <textarea id="address" formControlName="address" type="text" class="form-control" name="address" tabindex="1" required autofocus></textarea>
@@ -83,7 +120,7 @@
                     <div *ngIf="form.controls.address.errors.required">Please fill in your Address</div>
                   </div>
                 </div>
-
+              </div>
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="user_type">User Type</label>
@@ -131,10 +168,10 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="checkbox" *ngIf="form.value.user_type == 'patient'">
-                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a [routerLink]="['/','patientConsent']">Patient Consent</a> terms.</span></label>
+                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a (click)="lgModal.show()">Patient Consent</a> terms.</span></label>
                   </div>
                   <div class="checkbox" *ngIf="form.value.user_type == 'doctor'">
-                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a [routerLink]="['/','doctorConsent']">Doctor Consent</a> terms.</span></label>
+                    <label><input type="checkbox"  formControlName="agreement_check"><span class="ml-2">By registering You agree to the <a (click)="lgModal.show()">Doctor Consent</a> terms.</span></label>
                   </div>
 
                 </div>
@@ -161,3 +198,27 @@
     </div>
   </div>
 </section>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Consent Form</h4>
+        <button type="button" class="close pull-right" id="closeModal" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <div class="checkbox" *ngIf="form.value.user_type == 'patient'">
+            <app-patient-consent></app-patient-consent>
+          </div>
+          <div class="checkbox" *ngIf="form.value.user_type == 'doctor'">
+            <app-doctor-consent></app-doctor-consent>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
